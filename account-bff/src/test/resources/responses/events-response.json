@@ -1,0 +1,8 @@
+[
+  {
+    "name": "AccountOpenedEvent",
+    "occurredAt": "2023-12-01T14:34:43.273247Z",
+    "revision": 1,
+    "eventPayload": "{\"accountId\":\"e96bf38b-9106-4e1f-9e9a-a5245ebb85c9\"}"
+  }
+]

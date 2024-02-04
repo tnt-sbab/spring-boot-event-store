@@ -1,0 +1,12 @@
+{
+  "namespace": "se.sbab.event",
+  "name": "AccountClosedEvent",
+  "type": "record",
+  "doc": "This event is emitted when an existing account has been closed",
+  "fields": [
+    {
+      "name": "accountId",
+      "type": { "type": "string", "logicalType": "account-id" }
+    }
+  ]
+}

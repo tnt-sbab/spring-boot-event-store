@@ -1,0 +1,39 @@
+server:
+  port: 0
+  servlet:
+    context-path: /account-event-stream-processor
+spring:
+  application:
+    name: account-event-stream-processor
+  kafka:
+    bootstrap-servers: localhost:9092
+    properties:
+      security:
+        protocol: PLAINTEXT
+      schema:
+        registry:
+          url: http://localhost:8081
+      auto.register.schemas: true
+      specific.avro.reader: true
+      value:
+        subject:
+          name:
+            strategy: io.confluent.kafka.serializers.subject.TopicRecordNameStrategy
+  cloud:
+    function:
+      definition: accountQueryEventStream
+    stream:
+      kafka.streams.binder:
+        application-id: ${spring.application.name}
+        configuration.default:
+          key.serde: org.apache.kafka.common.serialization.Serdes$StringSerde
+          value.serde: io.confluent.kafka.streams.serdes.avro.SpecificAvroSerde
+        deserializationExceptionHandler: logAndContinue
+        functions:
+          accountQueryEventStream:
+            applicationId: account-query-service-events
+      bindings:
+        accountQueryEventStream-in-0:
+          destination: account-events
+        accountQueryEventStream-out-0:
+          destination: account-query-events

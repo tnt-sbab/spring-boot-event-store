@@ -1,0 +1,10 @@
+@startuml
+[*] -> State1 : Event1
+State1 -> State2 : Event2
+State2 -> State3 : Event3
+State3 -> StateN : EventN
+State1 : initial state
+State2 : next state
+State3 : next state
+StateN : current state
+@enduml

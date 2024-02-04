@@ -1,0 +1,16 @@
+{
+  "namespace": "se.sbab.event",
+  "name": "MoneyWithdrawnEvent",
+  "type": "record",
+  "doc": "This event is emitted when money has been withdrawn from an existing account",
+  "fields": [
+    {
+      "name": "accountId",
+      "type": { "type": "string", "logicalType": "account-id" }
+    },
+    {
+      "name": "amount",
+      "type": "int"
+    }
+  ]
+}

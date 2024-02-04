@@ -1,0 +1,16 @@
+@startuml
+[*] --> RootStateProjector : Event1
+RootStateProjector --> InitialState : DomainState
+InitialState -> State2 : onEvent(Event2)
+State2 -> CurrentState : onEvent(EventN)
+RootStateProjector : fun onEvent(event): DomainState
+InitialState : revision: 1
+InitialState : implements DomainState
+InitialState : fun onEvent(event): DomainState
+State2 : revision: 2
+State2 : implements DomainState
+State2 : fun onEvent(event): DomainState
+CurrentState : revision: N
+CurrentState : implements DomainState
+CurrentState : fun onEvent(event): DomainState
+@enduml

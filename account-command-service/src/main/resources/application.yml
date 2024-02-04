@@ -1,0 +1,96 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /account-command-service
+  error:
+    include-message: always
+  forward-headers-strategy: framework
+spring:
+  profiles:
+    active: ${ENV_NAME:dev}
+  application:
+    name: account-command-service
+  kafka:
+    bootstrap-servers: localhost:9092
+    #https://www.confluent.io/blog/spring-kafka-can-your-kafka-consumers-handle-a-poison-pill/
+    consumer:
+      group-id: account-group
+      key-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: io.confluent.kafka.serializers.KafkaAvroSerializer
+    properties:
+      spring:
+        deserializer:
+          key.delegate.class: org.apache.kafka.common.serialization.StringDeserializer
+          value.delegate.class: io.confluent.kafka.serializers.KafkaAvroDeserializer
+      schema:
+        registry:
+          url: http://localhost:8081
+      auto.register.schemas: true
+      specific.avro.reader: true
+      value.subject.name.strategy: io.confluent.kafka.serializers.subject.TopicRecordNameStrategy
+      security:
+        protocol: PLAINTEXT
+  datasource:
+    username: sa
+    password: password
+    url: jdbc:h2:mem:es;DB_CLOSE_ON_EXIT=FALSE
+    driver-class-name: org.h2.Driver
+  liquibase:
+    change-log: classpath:/se/sbab/eventsourcing/db/liquibase/eventsourcing-changelog.yaml
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+
+events-payload-topic: account-events
+events-domain-package: se.sbab.es.demo.app.one.aggregate
+
+springdoc:
+  paths-to-match: /accounts/**,/events/**
+  swagger-ui:
+    disable-swagger-default-url: true
+    operations-sorter: 'alpha'
+    tags-sorter: 'alpha'
+    doc-expansion: 'none'
+
+management:
+  endpoints:
+    web:
+      base-path: /admin
+      exposure:
+        include: prometheus,info,health,liquibase,beans
+      path-mapping:
+        health: healthcheck
+        prometheus: prometheusMetrics
+---
+#dev profile
+spring:
+  config:
+    activate:
+      on-profile: dev
+  jpa:
+    show-sql: false
+    properties:
+      hibernate:
+        generate_statistics: true
+        jdbc:
+          batch_size: 20
+publish-events: true
+
+---
+#oracle-db profile
+spring:
+  config:
+    activate:
+      on-profile: oracle-db
+  datasource:
+    url: ${ORACLE_JDBC_URL}
+    username: ${ORACLE_USERNAME}
+    password: ${ORACLE_PASSWORD}
+    driver-class-name: oracle.jdbc.OracleDriver
+  h2:
+    console:
+      enabled: false

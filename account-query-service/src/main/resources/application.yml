@@ -1,0 +1,77 @@
+server:
+  port: 9090
+  servlet:
+    context-path: /account-query-service
+spring:
+  profiles:
+    active: ${ENV_NAME:dev}
+  application:
+    name: account-query-service
+  kafka:
+    bootstrap-servers: localhost:9092
+    #https://www.confluent.io/blog/spring-kafka-can-your-kafka-consumers-handle-a-poison-pill/
+    consumer:
+      group-id: account-group
+      key-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.ErrorHandlingDeserializer
+    properties:
+      spring:
+        deserializer:
+          key.delegate.class: org.apache.kafka.common.serialization.StringDeserializer
+          value.delegate.class: io.confluent.kafka.serializers.KafkaAvroDeserializer
+      schema:
+        registry:
+          url: http://localhost:8081
+      auto.register.schemas: true
+      specific.avro.reader: true
+      value.subject.name.strategy: io.confluent.kafka.serializers.subject.TopicRecordNameStrategy
+      security:
+        protocol: PLAINTEXT
+  datasource:
+    username: sa
+    password: password
+    url: jdbc:h2:mem:query-service;DB_CLOSE_ON_EXIT=FALSE
+    driver-class-name: org.h2.Driver
+  liquibase:
+    change-log: classpath:/db/changelog/db.changelog-master.yaml
+  h2:
+    console:
+      enabled: true
+      path: /h2-console
+  graphql:
+    graphiql:
+      enabled: true
+management:
+  endpoints:
+    web:
+      base-path: /admin
+      exposure:
+        include: prometheus,info,env,health
+      path-mapping:
+        health: healthcheck
+        prometheus: prometheusMetrics
+# This configuration for Playground and Voyager is enabled by adding the graphql-spring-boot-autoconfigure dependency
+graphql:
+  playground:
+    static-path:
+      base: /account-query-service/vendor/playground
+    endpoint: /account-query-service/graphql
+    enabled: true
+    tabs:
+      - name: Accounts
+        query: classpath:playground/accounts_query.graphql
+        variables: classpath:playground/accounts_query_variables.json
+        endpoint: /account-query-service/graphql
+      - name: Account
+        query: classpath:playground/account_query.graphql
+        variables: classpath:playground/account_query_variables.json
+        endpoint: /account-query-service/graphql
+  servlet:
+    cors:
+      allowed-origins: '*'
+    exception-handlers-enabled: true
+    actuator-metrics: true
+    tracing-enabled: true
+  voyager:
+    base-path: /account-query-service/
+    enabled: true

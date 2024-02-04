@@ -1,0 +1,52 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: pknu
+      changes:
+        - createTable:
+            tableName: ACCOUNT
+            columns:
+              - column:
+                  name: account_id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: created_at
+                  type: timestamp
+                  constraints:
+                    nullable: false
+              - column:
+                  name: updated_at
+                  type: timestamp
+                  constraints:
+                    nullable: false
+              - column:
+                  name: balance
+                  type: int
+                  constraints:
+                    nullable: false
+  - changeSet:
+      id: 2
+      author: pknu
+      changes:
+        - createTable:
+            tableName: ACCOUNT_REVISION
+            columns:
+              - column:
+                  name: account_id
+                  type: UUID
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: revision
+                  type: int
+                  constraints:
+                    nullable: false
+              - column:
+                  name: out_of_order
+                  type: boolean
+                  constraints:
+                    nullable: false

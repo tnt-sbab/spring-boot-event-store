@@ -1,0 +1,6 @@
+type PageInfo {
+    totalPages: Int!
+    hasNext: Boolean!
+    hasPrevious: Boolean!
+    number: Int!
+}

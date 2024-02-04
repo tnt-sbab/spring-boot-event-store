@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentStyleType="text/css"
+     height="63px" preserveAspectRatio="none" style="width:679px;height:63px;background:#FFFFFF;" version="1.1"
+     viewBox="0 0 679 63" width="679px" zoomAndPan="magnify">
+    <defs/>
+    <g>
+        <ellipse cx="16" cy="32.5" fill="#222222" rx="10" ry="10" style="stroke:none;stroke-width:1.0;"/>
+        <g id="State1">
+            <rect fill="#F1F1F1" height="50.6211" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:0.5;"
+                  width="82" x="105" y="7"/>
+            <line style="stroke:#181818;stroke-width:0.5;" x1="105" x2="187" y1="33.4883" y2="33.4883"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="43"
+                  x="124.5" y="25.5352">State1
+            </text>
+            <text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="62" x="110"
+                  y="50.0898">initial state
+            </text>
+        </g>
+        <g id="State2">
+            <rect fill="#F1F1F1" height="50.6211" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:0.5;"
+                  width="77" x="265.5" y="7"/>
+            <line style="stroke:#181818;stroke-width:0.5;" x1="265.5" x2="342.5" y1="33.4883" y2="33.4883"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="43"
+                  x="282.5" y="25.5352">State2
+            </text>
+            <text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="57"
+                  x="270.5" y="50.0898">next state
+            </text>
+        </g>
+        <g id="State3">
+            <rect fill="#F1F1F1" height="50.6211" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:0.5;"
+                  width="77" x="421.5" y="7"/>
+            <line style="stroke:#181818;stroke-width:0.5;" x1="421.5" x2="498.5" y1="33.4883" y2="33.4883"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="43"
+                  x="438.5" y="25.5352">State3
+            </text>
+            <text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="57"
+                  x="426.5" y="50.0898">next state
+            </text>
+        </g>
+        <g id="StateN">
+            <rect fill="#F1F1F1" height="50.6211" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:0.5;"
+                  width="93" x="579.5" y="7"/>
+            <line style="stroke:#181818;stroke-width:0.5;" x1="579.5" x2="672.5" y1="33.4883" y2="33.4883"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="44" x="604"
+                  y="25.5352">StateN
+            </text>
+            <text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="73"
+                  x="584.5" y="50.0898">current state
+            </text>
+        </g><!--link *start to State1-->
+        <g id="link_*start_State1">
+            <path d="M26.2,32.5 C41.66,32.5 72.01,32.5 98.29,32.5 " fill="none" id="*start-to-State1"
+                  style="stroke:#181818;stroke-width:1.0;"/>
+            <polygon fill="#181818" points="103.01,32.5,94.01,28.5,98.01,32.5,94.01,36.5,103.01,32.5"
+                     style="stroke:#181818;stroke-width:1.0;"/>
+            <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="42" x="44.5"
+                  y="26.0684">Event1
+            </text>
+        </g><!--link State1 to State2-->
+        <g id="link_State1_State2">
+            <path d="M187.1,32.5 C209.08,32.5 236.19,32.5 258.77,32.5 " fill="none" id="State1-to-State2"
+                  style="stroke:#181818;stroke-width:1.0;"/>
+            <polygon fill="#181818" points="263.5,32.5,254.5,28.5,258.5,32.5,254.5,36.5,263.5,32.5"
+                     style="stroke:#181818;stroke-width:1.0;"/>
+            <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="42"
+                  x="205.25" y="26.0684">Event2
+            </text>
+        </g><!--link State2 to State3-->
+        <g id="link_State2_State3">
+            <path d="M342.96,32.5 C364.82,32.5 392.19,32.5 414.97,32.5 " fill="none" id="State2-to-State3"
+                  style="stroke:#181818;stroke-width:1.0;"/>
+            <polygon fill="#181818" points="419.75,32.5,410.75,28.5,414.75,32.5,410.75,36.5,419.75,32.5"
+                     style="stroke:#181818;stroke-width:1.0;"/>
+            <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="42" x="361"
+                  y="26.0684">Event3
+            </text>
+        </g><!--link State3 to StateN-->
+        <g id="link_State3_StateN">
+            <path d="M498.92,32.5 C520.91,32.5 548.72,32.5 572.71,32.5 " fill="none" id="State3-to-StateN"
+                  style="stroke:#181818;stroke-width:1.0;"/>
+            <polygon fill="#181818" points="577.53,32.5,568.53,28.5,572.53,32.5,568.53,36.5,577.53,32.5"
+                     style="stroke:#181818;stroke-width:1.0;"/>
+            <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="44" x="517"
+                  y="26.0684">EventN
+            </text>
+        </g><!--SRC=[YzQALT2rKmWkIIn9DLImKd0jIyqhCUI2yc4oHZ0P8oue7oPZ39CnveBoOJ9-C1a_BhZfcNcP9Pc9EGh5804kkD5vgHKbo6B6MCH0nYMN5XK13OG80m00]-->
+    </g>
+</svg>

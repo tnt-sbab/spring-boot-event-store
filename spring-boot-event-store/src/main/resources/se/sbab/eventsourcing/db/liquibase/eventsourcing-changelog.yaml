@@ -1,0 +1,86 @@
+databaseChangeLog:
+  - changeSet:
+      id: eventsourcing-baseline
+      author: pknu
+      changes:
+        - createTable:
+            tableName: EVENTS
+            columns:
+              - column:
+                  name: id
+                  type: BIGINT
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: aggregate_id
+                  type: UUID
+                  constraints:
+                    nullable: false
+              - column:
+                  name: revision
+                  type: NUMBER(9,0)
+                  constraints:
+                    nullable: false
+              - column:
+                  name: occurred_at
+                  type: TIMESTAMP
+                  defaultValueDate: CURRENT_TIMESTAMP
+                  constraints:
+                    nullable: false
+              - column:
+                  name: payload
+                  type: BLOB
+                  constraints:
+                    nullable: false
+        - addUniqueConstraint:
+            columnNames: aggregate_id, revision
+            constraintName: aggregate_unique_constraint
+            deferrable: true
+            disabled: false
+            tableName: events
+            validate: true
+        - createTable:
+            tableName: SEQUENCES
+            columns:
+              - column:
+                  name: name
+                  type: varchar(32)
+                  constraints:
+                    primaryKey: true
+                    nullable: false
+              - column:
+                  name: last_used_seq_num
+                  type: BIGINT
+                  constraints:
+                    nullable: false
+        - insert:
+            tableName: SEQUENCES
+            columns:
+              - column:
+                  name: name
+                  value: EVENTID
+              - column:
+                  name: last_used_seq_num
+                  valueComputed: "0"
+  - changeSet:
+      id: eventsourcing-uuid-functions
+      author: pknu
+      dbms: oracle
+      changes:
+        - sqlFile:
+            encoding: utf8
+            path: uuid_to_raw.sql
+            relativeToChangelogFile: true
+            stripComments: false
+            splitStatements: false
+        - sqlFile:
+            encoding: utf8
+            path: raw_to_uuid.sql
+            relativeToChangelogFile: true
+            stripComments: false
+            splitStatements: false
+        - createView:
+            replaceIfExists: true
+            selectQuery: SELECT ID, raw_to_uuid(AGGREGATE_ID) AS AGGREGATE_ID, REVISION, OCCURRED_AT, UTL_RAW.CAST_TO_BINARY_INTEGER(DBMS_LOB.SUBSTR(PAYLOAD, 4, 2)) AS SCHEMA_ID, PAYLOAD FROM EVENTS
+            viewName: EVENTS_VIEW

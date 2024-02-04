@@ -1,0 +1,16 @@
+{
+  "namespace": "se.sbab.event",
+  "name": "MoneyDepositedEvent",
+  "type": "record",
+  "doc": "This event is emitted when money has been deposited to an existing account",
+  "fields": [
+    {
+      "name": "accountId",
+      "type": { "type": "string", "logicalType": "account-id" }
+    },
+    {
+      "name": "amount",
+      "type": "int"
+    }
+  ]
+}

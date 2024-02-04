@@ -1,0 +1,12 @@
+{
+  "namespace": "se.sbab.event",
+  "name": "AccountOpenedEvent",
+  "type": "record",
+  "doc": "This event is emitted when a new account has been opened",
+  "fields": [
+    {
+      "name": "accountId",
+      "type": { "type": "string", "logicalType": "account-id" }
+    }
+  ]
+}

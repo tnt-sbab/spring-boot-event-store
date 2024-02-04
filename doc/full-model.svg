@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="us-ascii" standalone="no"?>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" contentStyleType="text/css"
+     height="286px" preserveAspectRatio="none" style="width:833px;height:286px;background:#FFFFFF;" version="1.1"
+     viewBox="0 0 833 286" width="833px" zoomAndPan="magnify">
+    <defs/>
+    <g>
+        <g id="Event1">
+            <rect fill="#F1F1F1" height="50" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:0.5;" width="71"
+                  x="52.5" y="103"/>
+            <line style="stroke:#181818;stroke-width:0.5;" x1="52.5" x2="123.5" y1="129.2969" y2="129.2969"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="51" x="62.5"
+                  y="120.9951">Event1
+            </text>
+        </g>
+        <g id="RootStateProjector">
+            <rect fill="#F1F1F1" height="50.2656" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:0.5;"
+                  width="162" x="7" y="230"/>
+            <line style="stroke:#181818;stroke-width:0.5;" x1="7" x2="169" y1="256.2969" y2="256.2969"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="142" x="17"
+                  y="247.9951">RootStateProjector
+            </text>
+            <text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="114" x="12"
+                  y="272.4355">fun onEvent(event)
+            </text>
+        </g>
+        <g id="State1">
+            <rect fill="#F1F1F1" height="50.2656" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:0.5;"
+                  width="84" x="204" y="230"/>
+            <line style="stroke:#181818;stroke-width:0.5;" x1="204" x2="288" y1="256.2969" y2="256.2969"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="49"
+                  x="221.5" y="247.9951">State1
+            </text>
+            <text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="64" x="209"
+                  y="272.4355">initial state
+            </text>
+        </g>
+        <g id="State2">
+            <rect fill="#F1F1F1" height="50.2656" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:0.5;"
+                  width="80" x="370" y="230"/>
+            <line style="stroke:#181818;stroke-width:0.5;" x1="370" x2="450" y1="256.2969" y2="256.2969"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="48" x="386"
+                  y="247.9951">State2
+            </text>
+            <text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="60" x="375"
+                  y="272.4355">next state
+            </text>
+        </g>
+        <g id="CurrentState">
+            <rect fill="#F1F1F1" height="50.2656" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:0.5;"
+                  width="115" x="531.5" y="230"/>
+            <line style="stroke:#181818;stroke-width:0.5;" x1="531.5" x2="646.5" y1="256.2969" y2="256.2969"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="95"
+                  x="541.5" y="247.9951">CurrentState
+            </text>
+            <text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="77"
+                  x="536.5" y="272.4355">current state
+            </text>
+        </g>
+        <g id="CommandHandler">
+            <rect fill="#F1F1F1" height="50.2656" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:0.5;"
+                  width="148" x="598" y="103"/>
+            <line style="stroke:#181818;stroke-width:0.5;" x1="598" x2="746" y1="129.2969" y2="129.2969"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="128" x="608"
+                  y="120.9951">CommandHandler
+            </text>
+            <text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="124" x="603"
+                  y="145.4355">fun apply(command)
+            </text>
+        </g>
+        <ellipse cx="672" cy="16" fill="#222222" rx="10" ry="10" style="stroke:#222222;stroke-width:1.0;"/>
+        <g id="NewCurrentState">
+            <rect fill="#F1F1F1" height="50.2656" rx="12.5" ry="12.5" style="stroke:#181818;stroke-width:0.5;"
+                  width="145" x="681.5" y="230"/>
+            <line style="stroke:#181818;stroke-width:0.5;" x1="681.5" x2="826.5" y1="256.2969" y2="256.2969"/>
+            <text fill="#000000" font-family="sans-serif" font-size="14" lengthAdjust="spacing" textLength="125"
+                  x="691.5" y="247.9951">NewCurrentState
+            </text>
+            <text fill="#000000" font-family="sans-serif" font-size="12" lengthAdjust="spacing" textLength="106"
+                  x="686.5" y="272.4355">new current state
+            </text>
+        </g><!--link Event1 to RootStateProjector-->
+        <g id="link_Event1_RootStateProjector">
+            <path d="M88,153.101 C88,175.236 88,201.8615 88,223.9727 " fill="none" id="Event1-to-RootStateProjector"
+                  style="stroke:#181818;stroke-width:1.0;"/>
+            <polygon fill="#181818" points="88,229.9727,92,220.9727,88,224.9727,84,220.9727,88,229.9727"
+                     style="stroke:#181818;stroke-width:1.0;"/>
+        </g><!--link RootStateProjector to State1-->
+        <g id="link_RootStateProjector_State1">
+            <path d="M169.16,255 C180.766,255 186.372,255 197.978,255 " fill="none" id="RootStateProjector-to-State1"
+                  style="stroke:#181818;stroke-width:1.0;"/>
+            <polygon fill="#181818" points="203.978,255,194.978,251,198.978,255,194.978,259,203.978,255"
+                     style="stroke:#181818;stroke-width:1.0;"/>
+        </g><!--link State1 to State2-->
+        <g id="link_State1_State2">
+            <path d="M288.234,255 C313.384,255 339.12,255 363.886,255 " fill="none" id="State1-to-State2"
+                  style="stroke:#181818;stroke-width:1.0;"/>
+            <polygon fill="#181818" points="369.886,255,360.886,251,364.886,255,360.886,259,369.886,255"
+                     style="stroke:#181818;stroke-width:1.0;"/>
+            <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="45"
+                  x="306.5" y="248.0669">Event2
+            </text>
+        </g><!--link State2 to CurrentState-->
+        <g id="link_State2_CurrentState">
+            <path d="M450.171,255 C474.085,255 498.831,255 525.309,255 " fill="none" id="State2-to-CurrentState"
+                  style="stroke:#181818;stroke-width:1.0;"/>
+            <polygon fill="#181818" points="531.309,255,522.309,251,526.309,255,522.309,259,531.309,255"
+                     style="stroke:#181818;stroke-width:1.0;"/>
+            <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="45"
+                  x="468.25" y="248.0669">Event3
+            </text>
+        </g><!--reverse link CommandHandler to CurrentState-->
+        <g id="link_CommandHandler_CurrentState">
+            <path d="M652.678,158.0994 C637.98,180.2344 619.636,207.8615 604.954,229.9727 " fill="none"
+                  id="CommandHandler-backto-CurrentState" style="stroke:#181818;stroke-width:1.0;"/>
+            <polygon fill="#181818"
+                     points="655.997,153.101,647.6862,158.3859,653.2311,157.2663,654.3507,162.8113,655.997,153.101"
+                     style="stroke:#181818;stroke-width:1.0;"/>
+        </g><!--link *start* to CommandHandler-->
+        <g id="link_*start*_CommandHandler">
+            <path d="M672,26.002 C672,42.627 672,72.655 672,96.873 " fill="none" id="*start*-to-CommandHandler"
+                  style="stroke:#181818;stroke-width:1.0;"/>
+            <polygon fill="#181818" points="672,102.873,676,93.873,672,97.873,668,93.873,672,102.873"
+                     style="stroke:#181818;stroke-width:1.0;"/>
+            <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="67" x="673"
+                  y="69.0669">Command
+            </text>
+        </g><!--link CommandHandler to NewCurrentState-->
+        <g id="link_CommandHandler_NewCurrentState">
+            <path d="M687.81,153.101 C702.331,175.236 720.4419,202.8446 734.9469,224.9558 " fill="none"
+                  id="CommandHandler-to-NewCurrentState" style="stroke:#181818;stroke-width:1.0;"/>
+            <polygon fill="#181818"
+                     points="738.238,229.9727,736.646,220.2534,735.4954,225.792,729.9568,224.6415,738.238,229.9727"
+                     style="stroke:#181818;stroke-width:1.0;"/>
+            <text fill="#000000" font-family="sans-serif" font-size="13" lengthAdjust="spacing" textLength="37" x="718"
+                  y="196.0669">Event
+            </text>
+        </g><!--SRC=[RP0z3u9038Rt_egEOC80RWmkXiJ941sDmmLhWe4UEOlel_Vk-4Zu6Av9dxTzsrxs8POOe-Y05wtbAaeeD_f5XMW3QuIsq9DuIqpnsJ9gpfnhG2w6q9TFZOcjyde2GswLOskCHHwC-dxiJB7aKafLuTi1c6oOlZAmXK7HfrjYr3PkeAvhnO-JVHKPkEtk_W_cs1eD05Q2ErGrJVKBYbuAuKpTOWscRhdAtCVDNBVvy_y0]-->
+    </g>
+</svg>

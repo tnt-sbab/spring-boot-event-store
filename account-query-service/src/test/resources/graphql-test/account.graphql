@@ -1,0 +1,8 @@
+query Account($accountId: ID) {
+    account(accountId: $accountId) {
+        accountId
+        createdAt
+        updatedAt
+        balance
+    }
+}

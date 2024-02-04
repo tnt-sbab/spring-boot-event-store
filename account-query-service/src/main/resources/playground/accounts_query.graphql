@@ -1,0 +1,16 @@
+query Accounts($page: Int!, $size: Int!) {
+    accounts(page: $page, size: $size) {
+        accounts {
+            accountId
+            createdAt
+            updatedAt
+            balance
+        }
+        page {
+            number
+            totalPages
+            hasNext
+            hasPrevious
+        }
+    }
+}

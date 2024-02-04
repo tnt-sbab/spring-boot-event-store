@@ -1,0 +1,15 @@
+@startuml
+Event1 --> RootStateProjector
+RootStateProjector -> State1
+RootStateProjector : fun onEvent(event)
+State1 -> State2 : Event2
+State2 -> CurrentState : Event3
+State1 : initial state
+State2 : next state
+CurrentState : current state
+CurrentState -up-> CommandHandler
+[*] --> CommandHandler : Command
+CommandHandler : fun apply(command)
+NewCurrentState : new current state
+CommandHandler --> NewCurrentState : Event
+@enduml

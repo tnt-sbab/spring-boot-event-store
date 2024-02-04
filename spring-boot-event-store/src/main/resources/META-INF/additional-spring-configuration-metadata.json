@@ -1,0 +1,14 @@
+{
+  "properties": [
+    {
+      "name": "events-payload-topic",
+      "type": "java.lang.String",
+      "description": "Topic name (using topic record name strategy) for Avro schema registry serializer and deserializer."
+    },
+    {
+      "name": "publish-events",
+      "type": "java.lang.Boolean",
+      "description": "Publish events directly to the Kafka payload-topic instead using Kafka-connect. Usually configured in a Spring profile for local development."
+    }
+  ]
+}

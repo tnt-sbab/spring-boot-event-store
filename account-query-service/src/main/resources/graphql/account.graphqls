@@ -1,0 +1,6 @@
+type Account {
+    accountId: ID!
+    createdAt: DateTime!
+    updatedAt: DateTime!
+    balance: Int!
+}

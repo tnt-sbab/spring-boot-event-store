@@ -1,0 +1,4 @@
+type SearchResult {
+    accounts: [Account!]!
+    page: PageInfo!
+}

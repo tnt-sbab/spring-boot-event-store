@@ -1,0 +1,5 @@
+type Query {
+    account(accountId: ID): Account
+
+    accounts(page: Int!, size: Int!): SearchResult!
+}

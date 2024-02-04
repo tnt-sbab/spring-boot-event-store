@@ -1,0 +1,23 @@
+### Basic cluster info
+GET http://localhost:8083
+
+### List connectors
+GET http://localhost:8083/connectors
+
+### Upload account-events connector
+PUT http://localhost:8083/connectors/account-events/config
+Content-Type: application/json
+
+< connectors/account-events.json
+
+### List account-events connector status
+GET http://localhost:8083/connectors/account-events/status
+
+### Pause account-events connector
+PUT http://localhost:8083/connectors/account-events/pause
+
+### Resume account-events connector
+PUT http://localhost:8083/connectors/account-events/resume
+
+### Delete account-events connector
+DELETE http://localhost:8083/connectors/account-events

@@ -1,0 +1,9 @@
+@startuml
+[*] --> CommandHandler : Command
+State -> CommandHandler
+State : Current state
+CommandHandler : fun apply(command)
+CommandHandler --> Exception : No
+CommandHandler --> Event : Yes
+Event : event(s)
+@enduml
