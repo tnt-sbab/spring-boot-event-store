@@ -101,7 +101,7 @@ This library also sets the HTTP headers `aggregate-id` and `revision` when used 
 Use the built-in `EventsService.getEvents()` to read all events from the event-store in json format.
 
 If events written to the central Oracle database should be published to Kafka, then use a kafka connector as in the
-[account-events.json](src%2Ftest%2Fresources%2Fhttprequests%2Fconnectors%2Faccount-events.json) example.
+[account-events.json](spring-boot-event-store%2Fsrc%2Ftest%2Fresources%2Fhttprequests%2Fconnectors%2Faccount-events.json) example.
 
 ## Concurrency
 This library has internal support for handling concurrent commands for the same aggregate. A unique database constraint
