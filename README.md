@@ -1,5 +1,8 @@
 # SBAB event-store library
 
+The `spring-boot-event-store` module is a production-grade event sourcing library that can be used in any Spring Boot
+application. It is licensed under the Apache 2.0 license.
+
 ## Event Sourcing
 Event Sourcing is a powerful architectural pattern that records all changes made to an application’s state, in the
 sequence in which the changes were originally applied. This sequence serves as both the system of record where current
@@ -111,8 +114,9 @@ to write to the database. The command handler will then be given the new state t
 caused.
 
 ## Demo app
-The `spring-boot-event-store` is the deployable part of a multi-module build. All other modules are libraries and
-services that demonstrates how to structure, build and run a complete example for an event-driven architecture.
+The `spring-boot-event-store` is the deployable and reusable part of a multi-module build. All other modules are
+libraries and services that demonstrates how to structure, build and run a complete example for an event-driven
+architecture.
 
 ## Configuration
 This library is based on Spring. To use, follow the steps below:
