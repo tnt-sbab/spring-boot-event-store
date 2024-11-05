@@ -122,7 +122,7 @@ This library is based on Spring. To use, follow the steps below:
 * Create a Spring service/bean that implements the RootStateProjector interface
 * Create one or more domain state classes that implements the DomainState interface
 * Include the `eventsourcing-changelog.yaml` file to the local liquibase changelog:
-```
+```yaml
 databaseChangeLog:
   - include:
       file: classpath:/se/sbab/credit/eventsourcing/db/liquibase/eventsourcing-changelog.yaml
@@ -130,7 +130,7 @@ databaseChangeLog:
 **NOTE**: Some versions of Liquibase has problems referring to a relative file included in the java classpath. This
 functionality has been tested using `liquibase-core` version `4.22.0`.
 * Add the schema registry config to Spring application.yml file:
-```
+```yaml
 spring:
   kafka:
     properties:
@@ -143,7 +143,7 @@ events-payload-topic: account-events
 * Add the `publish-events: true` property to the application.yml file to publish events to Kafka when using the `dev`
   profile in your local environment without the use of Kafka Connect.
 * Configure the `jdbc.batch_size` if the command handlers returns more than one event:
-```
+```yaml
 spring:
   jpa:
     properties:
@@ -154,7 +154,7 @@ spring:
 The batch size should match the max number of events returned from a single command handler.
 
 Generate statistics to validate batch inserts using this configuration (used during development):
-```
+```yaml
 spring:
   jpa:
     properties:
@@ -205,7 +205,7 @@ the RAW `AGGREGATE_ID` and `REVISION`.
 This may lead to reduced performance for select statements when searching for a particular `AGGREGATE_ID` as in the
 example above.
 
-**NOTE**: This library has ony been tested with Kotlin
+**NOTE**: This library has been tested with Kotlin and Java.
 
 # Local Kafka and Zipkin
 Use the official docker-compose [cp-all-in-one](https://github.com/confluentinc/cp-all-in-one/blob/v7.3.4/cp-all-in-one/docker-compose.yml)
