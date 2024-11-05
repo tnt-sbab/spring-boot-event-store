@@ -9,8 +9,8 @@
     <name>demo-events</name>
 
     <properties>
-        <avro.version>1.11.3</avro.version>
-        <java.version>17</java.version>
+        <avro.version>1.12.0</avro.version>
+        <java.version>21</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.deploy.skip>true</maven.deploy.skip>
     </properties>
@@ -20,6 +20,11 @@
             <groupId>org.apache.avro</groupId>
             <artifactId>avro</artifactId>
             <version>${avro.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.jetbrains</groupId>
+            <artifactId>annotations</artifactId>
+            <version>26.0.1</version>
         </dependency>
         <dependency>
             <groupId>se.sbab.demo.es</groupId>
@@ -33,7 +38,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.11.0</version>
+                <version>3.13.0</version>
                 <configuration>
                     <source>${java.version}</source>
                     <target>${java.version}</target>
@@ -51,6 +56,7 @@
                     <customConversions>
                         <customConversion>se.sbab.demo.es.avro.Conversions$AccountIdConversion</customConversion>
                     </customConversions>
+                    <createNullSafeAnnotations/>
                 </configuration>
                 <executions>
                     <execution>

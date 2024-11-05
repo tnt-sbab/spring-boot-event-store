@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.1.6</version>
+		<version>3.3.5</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>se.sbab.es.demo.bff</groupId>
@@ -14,13 +14,11 @@
 	<name>account-bff</name>
 	<description>Demo BFF for account</description>
 	<properties>
-		<java.version>17</java.version>
-		<kotlin.version>1.8.22</kotlin.version>
-		<spring-cloud.version>2022.0.4</spring-cloud.version>
-		<maven-failsafe-plugin.version>3.2.2</maven-failsafe-plugin.version>
-		<maven-surefire-plugin.version>3.2.2</maven-surefire-plugin.version>
-		<!-- snakeyaml 1.30 has several CVE problems -->
-		<snakeyaml.version>2.2</snakeyaml.version>
+		<java.version>21</java.version>
+		<kotlin.version>1.9.25</kotlin.version>
+		<spring-cloud.version>2023.0.3</spring-cloud.version>
+		<maven-failsafe-plugin.version>3.5.2</maven-failsafe-plugin.version>
+		<maven-surefire-plugin.version>3.5.2</maven-surefire-plugin.version>
 		<maven.deploy.skip>true</maven.deploy.skip>
 	</properties>
 	<dependencyManagement>
