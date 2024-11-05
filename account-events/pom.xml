@@ -49,7 +49,6 @@
                 <artifactId>avro-maven-plugin</artifactId>
                 <version>${avro.version}</version>
                 <configuration>
-                    <templateDirectory>${project.basedir}/templates/</templateDirectory>
                     <customLogicalTypeFactories>
                         <logicalTypeFactory>se.sbab.demo.es.avro.TypeFactories$AccountIdTypeFactory</logicalTypeFactory>
                     </customLogicalTypeFactories>
