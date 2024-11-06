@@ -9,12 +9,10 @@ import org.springframework.context.annotation.Import
 import org.springframework.context.annotation.Profile
 import org.springframework.core.env.Environment
 import org.springframework.stereotype.Component
-import se.sbab.common.logging.EnableCustomRequestLogFilter
 import se.sbab.eventsourcing.EventsourcingConfiguration
 
 @SpringBootApplication
 @Import(EventsourcingConfiguration::class)
-@EnableCustomRequestLogFilter
 class AccountCommandServiceApplication
 
 fun main(args: Array<String>) {
