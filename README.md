@@ -211,11 +211,11 @@ example above.
 
 **NOTE**: This library has been tested with Kotlin and Java.
 
-# Local Kafka and Zipkin
-Use the official docker-compose [cp-all-in-one](https://github.com/confluentinc/cp-all-in-one/blob/v7.3.4/cp-all-in-one/docker-compose.yml)
+# Local Kafka
+Use the official docker-compose [cp-all-in-one](https://github.com/confluentinc/cp-all-in-one/blob/v7.7.1/cp-all-in-one/docker-compose.yml)
 to spawn a local kafka cluster.
 
-# Listen on kafka topics:
+# Listen on Kafka topics with kcat:
 account-events:
 ```bash
 kcat -b localhost:9092 -t account-events -s value=avro -r http://localhost:8081 -f "Headers: %h\n Key: %k\n Payload: %s\n\n"
