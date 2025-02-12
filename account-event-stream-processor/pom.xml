@@ -5,17 +5,17 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.3.5</version>
+        <version>3.4.2</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>se.sbab.demo.es</groupId>
     <artifactId>account-event-stream-processor</artifactId>
     <version>1.0-SNAPSHOT</version>
-    <name>account-message-broker</name>
+    <name>account-event-stream-processor</name>
     <description>account-event-stream-processor</description>
     <properties>
         <java.version>21</java.version>
-        <kotlin.version>1.9.25</kotlin.version>
+        <kotlin.version>2.1.10</kotlin.version>
         <maven.deploy.skip>true</maven.deploy.skip>
     </properties>
     <dependencyManagement>
@@ -23,7 +23,7 @@
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
-                <version>2023.0.3</version>
+                <version>2024.0.0</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -55,7 +55,7 @@
         <dependency>
             <groupId>io.confluent</groupId>
             <artifactId>kafka-streams-avro-serde</artifactId>
-            <version>7.7.1</version>
+            <version>7.8.1</version>
         </dependency>
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
