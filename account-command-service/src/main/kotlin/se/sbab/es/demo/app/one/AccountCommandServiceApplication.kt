@@ -1,13 +1,13 @@
 package se.sbab.es.demo.app.one
 
 import org.slf4j.LoggerFactory
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.ApplicationArguments
 import org.springframework.boot.ApplicationRunner
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 import org.springframework.context.annotation.Import
 import org.springframework.context.annotation.Profile
-import org.springframework.core.env.Environment
 import org.springframework.stereotype.Component
 import se.sbab.eventsourcing.EventsourcingConfiguration
 
@@ -22,12 +22,11 @@ fun main(args: Array<String>) {
 @Component
 @Profile("dev")
 class UrlApplicationRunner(
-    private val environment: Environment
+    @Value("\${server.port:8080}") private val port: String
 ) : ApplicationRunner {
     private val logger = LoggerFactory.getLogger(javaClass)
 
     override fun run(args: ApplicationArguments?) {
-        val port = environment.getProperty("server.port")
         logger.info("Swagger URL: http://localhost:$port/account-command-service/swagger-ui.html")
         logger.info("H2 URL: http://localhost:$port/account-command-service/h2-console")
     }
