@@ -24,7 +24,7 @@ import java.util.UUID
 interface EventRepository : CrudRepository<EventEntity, Long> {
     fun findAllByAggregateIdOrderByRevision(aggregateId: UUID): List<EventEntity>
 
-    @Query("select max(revision) from EVENTS where aggregateId = :aggregateId")
+    @Query("select coalesce(cast(max(revision) as int), 0) from EVENTS where aggregateId = :aggregateId")
     fun findRevisionForAggregateId(aggregateId: UUID): Revision
 
     @Query("select distinct aggregateId from EVENTS")

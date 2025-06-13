@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>3.4.2</version>
+        <version>3.5.0</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>se.sbab.tnt</groupId>
@@ -17,10 +17,10 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>21</java.version>
-        <kotlin.version>2.1.10</kotlin.version>
+        <kotlin.version>1.9.25</kotlin.version>
         <liquibase.version>4.22.0</liquibase.version>
-        <maven-surefire-plugin.version>3.5.2</maven-surefire-plugin.version>
-        <maven-failsafe-plugin.version>3.5.2</maven-failsafe-plugin.version>
+        <maven-surefire-plugin.version>3.5.3</maven-surefire-plugin.version>
+        <maven-failsafe-plugin.version>3.5.3</maven-failsafe-plugin.version>
     </properties>
 
     <profiles>
@@ -88,7 +88,7 @@
         <dependency>
             <groupId>io.confluent</groupId>
             <artifactId>kafka-avro-serializer</artifactId>
-            <version>7.8.1</version>
+            <version>7.9.1</version>
         </dependency>
         <dependency>
             <groupId>io.micrometer</groupId>

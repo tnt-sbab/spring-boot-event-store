@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.4.2</version>
+		<version>3.5.0</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>se.sbab.es.demo.query</groupId>
@@ -15,9 +15,9 @@
 	<description>Demo query service for accounts</description>
 	<properties>
 		<java.version>21</java.version>
-		<kotlin.version>2.1.10</kotlin.version>
-		<maven-failsafe-plugin.version>3.5.2</maven-failsafe-plugin.version>
-		<maven-surefire-plugin.version>3.5.2</maven-surefire-plugin.version>
+		<kotlin.version>1.9.25</kotlin.version>
+		<maven-failsafe-plugin.version>3.5.3</maven-failsafe-plugin.version>
+		<maven-surefire-plugin.version>3.5.3</maven-surefire-plugin.version>
 		<maven.deploy.skip>true</maven.deploy.skip>
 	</properties>
 	<dependencies>
@@ -75,12 +75,12 @@
 		<dependency>
 			<groupId>io.confluent</groupId>
 			<artifactId>kafka-avro-serializer</artifactId>
-			<version>7.8.1</version>
+			<version>7.9.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.kafka</groupId>
 			<artifactId>kafka_2.13</artifactId>
-			<version>3.8.1</version>
+			<version>3.9.1</version>
 		</dependency>
 		<dependency>
 			<groupId>se.sbab.kafka.topics</groupId>
