@@ -12,41 +12,43 @@ spring:
     name: account-bff
   cloud:
     gateway:
-      forwarded:
-        enabled: false
-      routes:
-        - id: account-commands
-          uri: ${integration.account-command-service.url}
-          predicates:
-            - Method=POST,PUT
-            - Path=/account-bff/api/v1/command/**
-          filters:
-            - StripPrefix=4
-            - PrefixPath=/account-command-service
-            - AddPollUrlResponseHeader=/api/v1/accounts/$aggregateId/revision/$revision
-        - id: account-events
-          uri: ${integration.account-command-service.url}
-          predicates:
-            - Method=GET
-            - Path=/account-bff/api/v1/account-events/**
-          filters:
-            - StripPrefix=4
-            - PrefixPath=/account-command-service/events
-        - id: account-graphql
-          uri: ${integration.account-query-service.url}
-          predicates:
-            - Path=/account-bff/api/v1/graphql,false
-          filters:
-            - SetPath=/account-query-service/graphql
-            - RemoveRequestHeader=Origin
-        - id: account-poll-status
-          uri: ${integration.account-query-service.url}
-          predicates:
-            - Method=GET
-            - Path=/account-bff/api/v1/**
-          filters:
-            - StripPrefix=3
-            - PrefixPath=/account-query-service
+      server:
+        webflux:
+          forwarded:
+            enabled: false
+          routes:
+            - id: account-commands
+              uri: ${integration.account-command-service.url}
+              predicates:
+                - Method=POST,PUT
+                - Path=/account-bff/api/v1/command/**
+              filters:
+                - StripPrefix=4
+                - PrefixPath=/account-command-service
+                - AddPollUrlResponseHeader=/api/v1/accounts/$aggregateId/revision/$revision
+            - id: account-events
+              uri: ${integration.account-command-service.url}
+              predicates:
+                - Method=GET
+                - Path=/account-bff/api/v1/account-events/**
+              filters:
+                - StripPrefix=4
+                - PrefixPath=/account-command-service/events
+            - id: account-graphql
+              uri: ${integration.account-query-service.url}
+              predicates:
+                - Path=/account-bff/api/v1/graphql,false
+              filters:
+                - SetPath=/account-query-service/graphql
+                - RemoveRequestHeader=Origin
+            - id: account-poll-status
+              uri: ${integration.account-query-service.url}
+              predicates:
+                - Method=GET
+                - Path=/account-bff/api/v1/**
+              filters:
+                - StripPrefix=3
+                - PrefixPath=/account-query-service
 
 management:
   endpoints:
@@ -59,4 +61,4 @@ management:
         prometheus: prometheusMetrics
   endpoint:
     gateway:
-      enabled: true
+      access: read-only
