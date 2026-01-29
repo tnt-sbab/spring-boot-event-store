@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>3.5.0</version>
+		<version>3.5.10</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>se.sbab.es.demo.bff</groupId>
@@ -16,9 +16,9 @@
 	<properties>
 		<java.version>21</java.version>
 		<kotlin.version>1.9.25</kotlin.version>
-		<spring-cloud.version>2025.0.0</spring-cloud.version>
-		<maven-failsafe-plugin.version>3.5.3</maven-failsafe-plugin.version>
-		<maven-surefire-plugin.version>3.5.3</maven-surefire-plugin.version>
+		<spring-cloud.version>2025.0.1</spring-cloud.version>
+		<maven-failsafe-plugin.version>3.5.4</maven-failsafe-plugin.version>
+		<maven-surefire-plugin.version>3.5.4</maven-surefire-plugin.version>
 		<maven.deploy.skip>true</maven.deploy.skip>
 	</properties>
 	<dependencyManagement>
@@ -47,7 +47,8 @@
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-gateway</artifactId>
+			<!--artifactId>spring-cloud-starter-gateway-server-webmvc</artifactId-->
+			<artifactId>spring-cloud-starter-gateway-server-webflux</artifactId>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>

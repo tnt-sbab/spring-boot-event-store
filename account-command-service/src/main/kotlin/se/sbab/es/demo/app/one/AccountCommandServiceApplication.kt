@@ -26,7 +26,7 @@ class UrlApplicationRunner(
 ) : ApplicationRunner {
     private val logger = LoggerFactory.getLogger(javaClass)
 
-    override fun run(args: ApplicationArguments?) {
+    override fun run(args: ApplicationArguments) {
         logger.info("Swagger URL: http://localhost:$port/account-command-service/swagger-ui.html")
         logger.info("H2 URL: http://localhost:$port/account-command-service/h2-console")
     }
