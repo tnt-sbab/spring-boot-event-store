@@ -50,28 +50,3 @@ management:
       path-mapping:
         health: healthcheck
         prometheus: prometheusMetrics
-# This configuration for Playground and Voyager is enabled by adding the graphql-spring-boot-autoconfigure dependency
-graphql:
-  playground:
-    static-path:
-      base: /account-query-service/vendor/playground
-    endpoint: /account-query-service/graphql
-    enabled: true
-    tabs:
-      - name: Accounts
-        query: classpath:playground/accounts_query.graphql
-        variables: classpath:playground/accounts_query_variables.json
-        endpoint: /account-query-service/graphql
-      - name: Account
-        query: classpath:playground/account_query.graphql
-        variables: classpath:playground/account_query_variables.json
-        endpoint: /account-query-service/graphql
-  servlet:
-    cors:
-      allowed-origins: '*'
-    exception-handlers-enabled: true
-    actuator-metrics: true
-    tracing-enabled: true
-  voyager:
-    base-path: /account-query-service/
-    enabled: true

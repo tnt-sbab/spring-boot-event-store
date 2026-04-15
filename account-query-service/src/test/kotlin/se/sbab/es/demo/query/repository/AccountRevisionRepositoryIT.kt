@@ -1,12 +1,11 @@
 package se.sbab.es.demo.query.repository
 
-import org.hibernate.validator.internal.util.Contracts
 import org.junit.jupiter.api.Assertions
 import org.junit.jupiter.api.Assertions.assertEquals
 import org.junit.jupiter.api.BeforeEach
 import org.junit.jupiter.api.Test
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest
+import org.springframework.boot.data.jpa.test.autoconfigure.DataJpaTest
 import se.sbab.demo.es.AccountId
 import se.sbab.es.demo.query.kafka.Revision
 
@@ -27,7 +26,6 @@ class AccountRevisionRepositoryIT {
         val accountRevision = AccountRevision(accountId, revision, false)
         accountRevisionRepository.save(accountRevision)
         val result = accountRevisionRepository.findByAccountId(accountId)
-        Contracts.assertNotNull(result)
         assertEquals(accountId, result!!.accountId)
         assertEquals(revision, result.revision)
         Assertions.assertFalse(result.outOfOrder)

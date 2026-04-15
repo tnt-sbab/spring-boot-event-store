@@ -23,10 +23,8 @@ class UrlApplicationRunner(
 ) : ApplicationRunner {
 	private val logger = LoggerFactory.getLogger(javaClass)
 
-	override fun run(args: ApplicationArguments?) {
+	override fun run(args: ApplicationArguments) {
 		logger.info("H2 URL: http://localhost:$port/account-query-service/h2-console")
-		logger.info("Playground: http://localhost:$port/account-query-service/playground")
-		logger.info("Voyager: http://localhost:$port/account-query-service/voyager")
 		logger.info("GraphiQL: http://localhost:$port/account-query-service/graphiql")
 	}
 }

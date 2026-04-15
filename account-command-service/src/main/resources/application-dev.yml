@@ -1,0 +1,12 @@
+spring:
+  config:
+    activate:
+      on-profile: dev
+  jpa:
+    show-sql: false
+    properties:
+      hibernate:
+        generate_statistics: true
+        jdbc:
+          batch_size: 20
+publish-events: true

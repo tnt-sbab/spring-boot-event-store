@@ -20,12 +20,11 @@ import org.apache.kafka.clients.producer.ProducerConfig
 import org.apache.kafka.common.serialization.ByteArraySerializer
 import org.apache.kafka.common.serialization.StringSerializer
 import org.springframework.beans.factory.ObjectProvider
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
-import org.springframework.boot.autoconfigure.kafka.KafkaProperties
 import org.springframework.boot.context.properties.EnableConfigurationProperties
 import org.springframework.boot.context.properties.PropertyMapper
+import org.springframework.boot.kafka.autoconfigure.KafkaProperties
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.kafka.core.DefaultKafkaProducerFactory
@@ -39,7 +38,7 @@ import org.springframework.kafka.support.converter.RecordMessageConverter
 @Configuration
 @ConditionalOnClass(KafkaTemplate::class)
 @EnableConfigurationProperties(KafkaProperties::class)
-class KafkaConfig(@Autowired private val kafkaProperties: KafkaProperties) {
+class KafkaConfig(private val kafkaProperties: KafkaProperties) {
     @Bean
     fun simpleKafkaHeaderMapper(): KafkaHeaderMapper = SimpleKafkaHeaderMapper()
 
@@ -47,8 +46,8 @@ class KafkaConfig(@Autowired private val kafkaProperties: KafkaProperties) {
     @ConditionalOnProperty(name = ["publish-events"], havingValue = "true", matchIfMissing = false)
     fun byteArrayKafkaTemplate(): KafkaTemplate<String, ByteArray> {
         val configProperties = kafkaProperties.buildProducerProperties()
-        configProperties[ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG] = StringSerializer::class.qualifiedName
-        configProperties[ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG] = ByteArraySerializer::class.qualifiedName
+        configProperties[ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG] = StringSerializer::class.qualifiedName!!
+        configProperties[ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG] = ByteArraySerializer::class.qualifiedName!!
         val eventProducerFactory = DefaultKafkaProducerFactory<String, ByteArray>(configProperties)
         return KafkaTemplate(eventProducerFactory)
     }
@@ -63,7 +62,7 @@ class KafkaConfig(@Autowired private val kafkaProperties: KafkaProperties) {
         kafkaProducerListener: ProducerListener<Any, Any>,
         messageConverter: ObjectProvider<RecordMessageConverter>,
     ): KafkaTemplate<*, *> {
-        val map = PropertyMapper.get().alwaysApplyingWhenNonNull()
+        val map = PropertyMapper.get()
         val kafkaTemplate = KafkaTemplate(kafkaProducerFactory)
         messageConverter.ifUnique { kafkaTemplate.messageConverter = it }
         map.from(kafkaProducerListener).to(kafkaTemplate::setProducerListener)

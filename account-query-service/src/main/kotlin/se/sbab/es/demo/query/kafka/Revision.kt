@@ -13,6 +13,7 @@ data class Revision @JsonCreator(mode = DELEGATING) constructor(@JsonValue val v
     }
 
     // This constructor is used when consuming from the Kafka revision header
+    @JsonCreator
     constructor(value: ByteArray) : this(ByteBuffer.wrap(value).int)
 
     @JsonCreator(mode = JsonCreator.Mode.DELEGATING)

@@ -361,7 +361,7 @@ curl -i -X 'PUT' \
 HTTP/1.1 204 No Content
 aggregate-id: 0112d278-19d2-483f-9f0c-4658bbcedae0
 revision: 7
-Date: Thu, 29 Jan 2026 13:26:48 GMT
+Date: Wed, 15 Apr 2026 10:19:27 GMT
 poll-url: /api/v1/accounts/0112d278-19d2-483f-9f0c-4658bbcedae0/revision/7
 ```
 
@@ -369,15 +369,10 @@ Poll until the read model is up-to-date:
 
 ```
 curl -i -X 'GET' \
-  'http://localhost:8888/account-bff/api/v1/accounts/0112d278-19d2-483f-9f0c-4658bbcedae0/revision/7' \
-  -H 'accept: */*' \
-  -H 'Content-Type: application/json' \
-  -d '{
-  "amount": 100
-}'
+  'http://localhost:8888/account-bff/api/v1/accounts/44754f26-fa6d-4538-b139-02fee9d4df95/revision/7'
 HTTP/1.1 200 OK
 Content-Length: 0
-Date: Thu, 29 Jan 2026 13:30:22 GMT
+Date: Wed, 15 Apr 2026 10:19:36 GMT
 ```
 
 A `200` response means the read model is up-to-date with at least revision `7` for aggregate ID
@@ -387,14 +382,9 @@ To more easily observe eventual consistency, request a higher revision:
 
 ```
 curl -i -X 'GET' \
-  'http://localhost:8888/account-bff/api/v1/accounts/0112d278-19d2-483f-9f0c-4658bbcedae0/revision/8' \
-  -H 'accept: */*' \
-  -H 'Content-Type: application/json' \
-  -d '{
-  "amount": 100
-}'
+  'http://localhost:8888/account-bff/api/v1/accounts/0112d278-19d2-483f-9f0c-4658bbcedae0/revision/8'
 HTTP/1.1 204 No Content
-Date: Thu, 29 Jan 2026 13:33:49 GMT
+Date: 15 Apr 2026 10:19:39 GMT
 ```
 
 Here, `204` indicates that revision `8` has not yet arrived over Kafka to the read side.
