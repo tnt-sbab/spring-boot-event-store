@@ -8,6 +8,8 @@ spring:
     active: ${ENV_NAME:dev}
   application:
     name: account-command-service
+  main:
+    banner-mode: off
   web:
     error:
       include-message: always

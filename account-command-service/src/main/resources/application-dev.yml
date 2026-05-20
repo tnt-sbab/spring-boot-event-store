@@ -1,4 +1,6 @@
 spring:
+  main:
+    banner-mode: console
   config:
     activate:
       on-profile: dev

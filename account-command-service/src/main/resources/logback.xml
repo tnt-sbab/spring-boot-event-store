@@ -42,9 +42,7 @@
         </encoder>
     </appender>
 
-    <logger name="org.springframework.web.filter.CommonsRequestLoggingFilter">
-        <level value="DEBUG" />
-    </logger>
+    <logger name="org.springframework.web.filter.CommonsRequestLoggingFilter" level="DEBUG" />
 
     <root level="INFO">
         <appender-ref ref="STDOUT"/>

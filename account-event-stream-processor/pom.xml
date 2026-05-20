@@ -5,7 +5,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>4.0.5</version>
+        <version>4.0.6</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>se.sbab.demo.es</groupId>
@@ -16,6 +16,7 @@
     <properties>
         <java.version>21</java.version>
         <kotlin.version>2.2.21</kotlin.version>
+        <spring-cloud.version>2025.1.1</spring-cloud.version>
         <maven.deploy.skip>true</maven.deploy.skip>
     </properties>
     <dependencyManagement>
@@ -23,7 +24,7 @@
             <dependency>
                 <groupId>org.springframework.cloud</groupId>
                 <artifactId>spring-cloud-dependencies</artifactId>
-                <version>2025.1.1</version>
+                <version>${spring-cloud.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
@@ -60,7 +61,7 @@
         <dependency>
             <groupId>io.confluent</groupId>
             <artifactId>kafka-streams-avro-serde</artifactId>
-            <version>7.9.2</version>
+            <version>8.2.1</version>
         </dependency>
         <dependency>
             <groupId>org.jetbrains.kotlin</groupId>
