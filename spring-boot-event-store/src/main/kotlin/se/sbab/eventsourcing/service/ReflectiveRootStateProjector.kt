@@ -16,9 +16,10 @@
 
 package se.sbab.eventsourcing.service
 
-import org.reflections.Reflections
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
+import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider
+import org.springframework.core.type.filter.AssignableTypeFilter
 import org.springframework.stereotype.Service
 import se.sbab.eventsourcing.DomainState
 import se.sbab.eventsourcing.Event
@@ -36,8 +37,16 @@ class ReflectiveRootStateProjector(
             findRootStateConstructors(domainClass)
         }.flatMap { it.entries }.associate { it.toPair() }
 
-    private fun findAggregateRootClasses(): Set<Class<out DomainState>> =
-        Reflections(domainPackage).getSubTypesOf(DomainState::class.java)
+    private fun findAggregateRootClasses(): Set<Class<out DomainState>> {
+        val scanner = ClassPathScanningCandidateComponentProvider(false)
+        scanner.addIncludeFilter(AssignableTypeFilter(DomainState::class.java))
+        return scanner.findCandidateComponents(domainPackage)
+            .mapNotNull { beanDef ->
+                @Suppress("UNCHECKED_CAST")
+                Class.forName(beanDef.beanClassName) as? Class<out DomainState>
+            }
+            .toSet()
+    }
 
     private fun findRootStateConstructors(domainClass: Class<out DomainState>): Map<Class<Event>, (Event) -> DomainState> =
         domainClass.declaredConstructors.filter(::isRootStateConstructor).associate { constructor ->
