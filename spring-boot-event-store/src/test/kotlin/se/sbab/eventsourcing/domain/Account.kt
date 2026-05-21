@@ -11,7 +11,7 @@ import se.sbab.eventsourcing.Event
 data class Account(
     val id: AccountId,
     val balance: Int = 0,
-    val status: AccountStatus = AccountStatus.ACTIVE
+    val status: AccountStatus = AccountStatus.ACTIVE,
 ) : DomainState {
     constructor(event: AccountOpenedEvent) : this(
         id = event.accountId,

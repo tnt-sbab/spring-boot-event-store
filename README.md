@@ -3,6 +3,21 @@
 The `spring-boot-event-store` module is a production-grade event sourcing library for Spring Boot applications.
 It’s licensed under the Apache 2.0 License.
 
+**This is the only event sourcing library with automatic event upcasting** — your application always works with the
+latest event schema, no matter how old the stored data is.
+
+Older events are transparently upcasted on read using **Avro** and a **Schema Registry** configured with
+`BACKWARD_TRANSITIVE` compatibility, which also rejects breaking schema changes at registration time before they reach
+production.
+
+A Schema Registry is required to use this framework. Kafka is optional, but built-in event publishing is supported in
+two ways:
+
+1. `publish-events: true` — simple Spring property, recommended for local development.
+2. Kafka Connect — reads committed events directly from the database, guaranteeing strict ordering even across multiple
+   service instances. See [`account-events-oracle-connector.json`](account-command-service/account-events-oracle-connector.json)
+   for an example connector configuration using an Oracle database.
+
 This repository also contains a small set of demo services that show how to structure an event-sourced system end-to-end
 (command side, query side, stream processing, and a BFF).
 
@@ -70,7 +85,7 @@ immutable events. The event stream is the system of record; the latest state is 
 
 ### Commands, events, and aggregates
 
-Business logic is modeled as command handling that produces one or more events:
+Business logic is modeled as command handling that produces zero, one or more events:
 
 1. A command is sent to the system.
 2. A command handler evaluates the command against current aggregate state + business rules.
@@ -112,6 +127,61 @@ To specify the root package of your domain events, set the Spring property `even
 
 If you need more control (multiple aggregate types, non-standard initialization, etc.), you can implement your own
 `RootStateProjector`.
+
+#### DomainState example
+
+Below is a complete `Account` aggregate that implements `DomainState`.
+It models a bank account with a balance and reacts to three domain events.
+
+```kotlin
+data class Account(val balance: Int = 0) : DomainState {
+  constructor(event: AccountOpenedEvent) : this()
+
+  private fun on(event: MoneyWithdrawnEvent) = copy(balance = balance - event.amount)
+
+  private fun on(event: MoneyDepositedEvent) = copy(balance = balance + event.amount)
+
+  override fun onEvent(event: Event): Account =
+    when (event) {
+      is MoneyWithdrawnEvent -> on(event)
+      is MoneyDepositedEvent -> on(event)
+      else -> throw IllegalArgumentException("Unsupported event type")
+    }
+}
+```
+
+##### How projection works — step by step
+
+Consider the following sequence of events for a single account:
+
+```kotlin
+val events = listOf(
+    AccountOpenedEvent(accountId),       // revision 1
+    MoneyDepositedEvent(accountId, 300), // revision 2
+    MoneyWithdrawnEvent(accountId, 100), // revision 3
+)
+val accountState = domainStateProjector.currentState(events) as Account
+// accountState.balance == 200
+```
+
+`DomainStateProjector.currentState` processes the list in two phases:
+
+| Phase | Event | Mechanism | Resulting state |
+|-------|-------|-----------|-----------------|
+| **1 — Initial state** | `AccountOpenedEvent` | The **reflective `RootStateProjector`** finds the `Account(event: AccountOpenedEvent)` constructor via reflection and calls it, producing the first `Account` instance (`balance = 0`). | `Account(id=…, balance=0)` |
+| **2 — Fold remaining events** | `MoneyDepositedEvent(300)` | `account.onEvent(event)` dispatches to `on(MoneyDepositedEvent)`, returning a new copy with `balance = 300`. | `Account(id=…, balance=300)` |
+| | `MoneyWithdrawnEvent(100)` | `account.onEvent(event)` dispatches to `on(MoneyWithdrawnEvent)`, returning a new copy with `balance = 200`. | `Account(id=…, balance=200)` |
+
+Key design points:
+
+- **The constructor is the entry point for the first event only.** The reflective `RootStateProjector` scans all
+  classes implementing `DomainState`, finds a constructor that accepts exactly one `Event` parameter, and invokes it.
+  This means the constructor should only capture the data carried by the opening event (e.g. the account ID).
+- **`onEvent` must reject the opening event on subsequent calls.** Because `AccountOpenedEvent` is handled by the
+  constructor, an `Account` should already exist if that event is seen again — throwing an exception is the correct
+  defensive behaviour.
+- **Each `onEvent` call returns a new immutable copy** (via Kotlin's `data class` `copy`). State is never mutated
+  in-place, making the fold over the event list safe and predictable.
 
 #### Command execution API
 
@@ -214,7 +284,7 @@ Use `EventsService.getEvents()` to read all events from the event store in JSON 
 ### Publishing Oracle events via Kafka Connect
 
 If events written to the central Oracle database should be published to Kafka, use a Kafka Connect connector as in the
-[account-events.json](spring-boot-event-store%2Fsrc%2Ftest%2Fresources%2Fhttprequests%2Fconnectors%2Faccount-events.json) example.
+[account-events.json](spring-boot-event-store/src/test/resources/httprequests/connectors/account-events.json) example.
 
 ---
 
@@ -302,7 +372,7 @@ https://www.baeldung.com/spring-data-jpa-batch-inserts
 ### Oracle notes (`RAW` UUID mapping)
 
 When using an **Oracle** database, the `aggregate_id` column is mapped to a `RAW` type.
-The helper functions `uuid_to_raw` and `raw_to_uuid` added by this library can be used to mitigate this:
+The helper functions `uuid_to_raw` and `raw_to_uuid` added by this library can be used to handle this:
 
 ```sql
 SELECT ID, raw_to_uuid(AGGREGATE_ID) AS AGGREGATE_ID, REVISION, OCCURRED_AT, PAYLOAD
@@ -333,7 +403,7 @@ This may reduce performance for some queries that filter by `AGGREGATE_ID`.
 
 ## Demo application modules
 
-The `spring-boot-event-store` module is the deployable and reusable part of a multi-module build.
+The `spring-boot-event-store` module is the usable library artifact in this multi-module project.
 The other modules are libraries/services that demonstrate how to structure and run a complete example of an
 event-driven architecture.
 
@@ -369,7 +439,7 @@ Poll until the read model is up-to-date:
 
 ```
 curl -i -X 'GET' \
-  'http://localhost:8888/account-bff/api/v1/accounts/44754f26-fa6d-4538-b139-02fee9d4df95/revision/7'
+  'http://localhost:8888/account-bff/api/v1/accounts/0112d278-19d2-483f-9f0c-4658bbcedae0/revision/7'
 HTTP/1.1 200 OK
 Content-Length: 0
 Date: Wed, 15 Apr 2026 10:19:36 GMT
