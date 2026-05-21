@@ -342,7 +342,7 @@ events-payload-topic: account-events
 Outside local development environments, `auto.register.schemas` should typically be `false` and schema registration should
 be part of your controlled deployment process.
 
-Recommended Schema Registry settings:
+Required Schema Registry settings for domain events:
 
 - strategy: `TopicRecordNameStrategy`
 - compatibility: `BACKWARD_TRANSITIVE`
