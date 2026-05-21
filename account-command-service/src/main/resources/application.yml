@@ -49,7 +49,6 @@ spring:
       path: /h2-console
 
 events-payload-topic: account-events
-events-domain-package: se.sbab.es.demo.app.one.aggregate
 
 springdoc:
   paths-to-match: /accounts/**,/events/**

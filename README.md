@@ -122,8 +122,8 @@ The library includes a reflective `RootStateProjector` implementation:
 - It scans classes implementing `DomainState`.
 - It chooses a constructor that takes exactly one `Event` parameter.
 - The constructor is used to create the initial state from the first event.
-
-To specify the root package of your domain events, set the Spring property `events-domain-package`.
+- It scans the same packages that your regular component scan does to find Spring components, but it searches for 
+  classes implementing the `DomainState` interface instead.
 
 If you need more control (multiple aggregate types, non-standard initialization, etc.), you can implement your own
 `RootStateProjector`.
@@ -232,12 +232,17 @@ This keeps the aggregate consistent without global locks.
 
 ### Schema evolution and upcasting
 
-All events used by this library should be encoded as **Avro** and registered in **Schema Registry**.
+All events used by this library should be encoded as **Avro** and registered in **Schema Registry** using the
+`TopicRecordNameStrategy` and compatability mode `BACKWARD_TRANSITIVE`. The topic must match the value in the
+`events-payload-topic` property. For example:
+
+![Schema Registry](doc/schema-registry.png "Schema Registry")
+
 With Avro + Schema Registry you can:
 
 - evolve event schemas using compatibility rules,
 - deserialize older events with newer code,
-- (when configured) automatically upcast from older schema versions.
+- automatically upcast from older schema versions.
 
 When used correctly, all events should be serializable/deserializable to/from the event store while supporting automatic
 upcasting when events are updated.
@@ -290,13 +295,11 @@ If events written to the central Oracle database should be published to Kafka, u
 
 ## Configuration
 
-This library is based on Spring. To use it:
+This library is based on Spring, and it will autoconfigure itself when included. To use it:
 
-- Import this library as a Maven dependency
-- Annotate the Spring main class with `@Import(EventsourcingConfiguration::class)`
-- Create a Spring bean that implements the `RootStateProjector` interface
+- Import the spring-boot-eventy-store module as a Maven dependency
 - Create one or more domain state classes that implement the `DomainState` interface
-- Include `eventsourcing-changelog.yaml` in your Liquibase changelog:
+- Include `eventsourcing-changelog.yaml` in your Liquibase changelog (or create the objects manually in the database):
 
 ```yaml
 databaseChangeLog:

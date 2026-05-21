@@ -1,4 +1,3 @@
 spring:
   liquibase:
     change-log: classpath:/se/sbab/eventsourcing/db/liquibase/eventsourcing-changelog.yaml
-events-domain-package: se.sbab.eventsourcing.domain

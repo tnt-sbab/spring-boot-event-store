@@ -11,6 +11,7 @@ import org.springframework.boot.graphql.test.autoconfigure.tester.AutoConfigureG
 import org.springframework.boot.test.context.SpringBootTest
 import org.springframework.context.ApplicationEventPublisher
 import org.springframework.graphql.test.tester.GraphQlTester
+import org.springframework.transaction.annotation.Transactional
 import se.sbab.demo.es.AccountId
 import se.sbab.es.demo.query.repository.Account
 import se.sbab.es.demo.query.repository.AccountRepository
@@ -30,6 +31,7 @@ class AccountControllerIT {
     lateinit var accountRepository: AccountRepository
 
     @BeforeEach
+    @Transactional
     fun init() {
         accountRepository.deleteAll()
     }

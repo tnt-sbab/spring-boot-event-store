@@ -16,21 +16,21 @@
 
 package se.sbab.eventsourcing.service
 
-import org.springframework.beans.factory.annotation.Value
-import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
+import org.springframework.boot.autoconfigure.AutoConfigurationPackages
+import org.springframework.context.ApplicationContext
 import org.springframework.context.annotation.ClassPathScanningCandidateComponentProvider
 import org.springframework.core.type.filter.AssignableTypeFilter
-import org.springframework.stereotype.Service
 import se.sbab.eventsourcing.DomainState
 import se.sbab.eventsourcing.Event
 import java.lang.reflect.Constructor
 
-@Service
-@ConditionalOnProperty(name = ["events-domain-package"])
 class ReflectiveRootStateProjector(
-    @Value("\${events-domain-package}") private val domainPackage: String,
+    private val applicationContext: ApplicationContext,
 ) : RootStateProjector {
     val constructors: Map<Class<Event>, (Event) -> DomainState> = findRootStateConstructors()
+
+    private fun findBasePackages(): List<String> =
+        AutoConfigurationPackages.get(applicationContext.autowireCapableBeanFactory)
 
     private fun findRootStateConstructors(): Map<Class<Event>, (Event) -> DomainState> =
         findAggregateRootClasses().map { domainClass ->
@@ -40,12 +40,12 @@ class ReflectiveRootStateProjector(
     private fun findAggregateRootClasses(): Set<Class<out DomainState>> {
         val scanner = ClassPathScanningCandidateComponentProvider(false)
         scanner.addIncludeFilter(AssignableTypeFilter(DomainState::class.java))
-        return scanner.findCandidateComponents(domainPackage)
-            .mapNotNull { beanDef ->
-                @Suppress("UNCHECKED_CAST")
-                Class.forName(beanDef.beanClassName) as? Class<out DomainState>
-            }
-            .toSet()
+        return findBasePackages().flatMap { pkg ->
+            scanner.findCandidateComponents(pkg)
+        }.mapNotNull { beanDef ->
+            @Suppress("UNCHECKED_CAST")
+            Class.forName(beanDef.beanClassName) as? Class<out DomainState>
+        }.toSet()
     }
 
     private fun findRootStateConstructors(domainClass: Class<out DomainState>): Map<Class<Event>, (Event) -> DomainState> =

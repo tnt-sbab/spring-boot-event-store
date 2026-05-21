@@ -19,21 +19,16 @@ package se.sbab.eventsourcing.kafka
 import org.apache.kafka.clients.producer.ProducerConfig
 import org.apache.kafka.common.serialization.ByteArraySerializer
 import org.apache.kafka.common.serialization.StringSerializer
-import org.springframework.beans.factory.ObjectProvider
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty
 import org.springframework.boot.context.properties.EnableConfigurationProperties
-import org.springframework.boot.context.properties.PropertyMapper
 import org.springframework.boot.kafka.autoconfigure.KafkaProperties
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.kafka.core.DefaultKafkaProducerFactory
 import org.springframework.kafka.core.KafkaTemplate
-import org.springframework.kafka.core.ProducerFactory
 import org.springframework.kafka.support.KafkaHeaderMapper
-import org.springframework.kafka.support.ProducerListener
 import org.springframework.kafka.support.SimpleKafkaHeaderMapper
-import org.springframework.kafka.support.converter.RecordMessageConverter
 
 @Configuration
 @ConditionalOnClass(KafkaTemplate::class)
@@ -50,25 +45,5 @@ class KafkaConfig(private val kafkaProperties: KafkaProperties) {
         configProperties[ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG] = ByteArraySerializer::class.qualifiedName!!
         val eventProducerFactory = DefaultKafkaProducerFactory<String, ByteArray>(configProperties)
         return KafkaTemplate(eventProducerFactory)
-    }
-
-    /*
-     * Implementation from org.springframework.boot.autoconfigure.kafka.KafkaAutoConfiguration.kafkaTemplate
-     * https://github.com/spring-projects/spring-boot/blob/main/spring-boot-project/spring-boot-autoconfigure/src/main/java/org/springframework/boot/autoconfigure/kafka/KafkaAutoConfiguration.java#L92
-     */
-    @Bean
-    fun kafkaTemplate(
-        kafkaProducerFactory: ProducerFactory<Any, Any>,
-        kafkaProducerListener: ProducerListener<Any, Any>,
-        messageConverter: ObjectProvider<RecordMessageConverter>,
-    ): KafkaTemplate<*, *> {
-        val map = PropertyMapper.get()
-        val kafkaTemplate = KafkaTemplate(kafkaProducerFactory)
-        messageConverter.ifUnique { kafkaTemplate.messageConverter = it }
-        map.from(kafkaProducerListener).to(kafkaTemplate::setProducerListener)
-        map.from(kafkaProperties.template.defaultTopic).to(kafkaTemplate::setDefaultTopic)
-        map.from(kafkaProperties.template.transactionIdPrefix).to(kafkaTemplate::setTransactionIdPrefix)
-        kafkaTemplate.setObservationEnabled(true)
-        return kafkaTemplate
     }
 }
