@@ -4,10 +4,10 @@ import se.sbab.event.AccountOpenedEvent
 import se.sbab.eventsourcing.Event
 import se.sbab.eventsourcing.service.RootStateProjector
 
-// @Service
+// @Service // Integration tests are configured to use the reflective RootStateProjector
 class RootStateProjectorService : RootStateProjector {
-    override fun onEvent(event: Event): se.sbab.eventsourcing.domain.Account = when (event) {
-        is AccountOpenedEvent -> se.sbab.eventsourcing.domain.Account(event)
+    override fun onEvent(event: Event): Account = when (event) {
+        is AccountOpenedEvent -> Account(event)
         else -> throw IllegalArgumentException("No constructor event found for account")
     }
 }

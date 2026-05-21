@@ -8,8 +8,11 @@ import se.sbab.event.MoneyWithdrawnEvent
 import se.sbab.eventsourcing.DomainState
 import se.sbab.eventsourcing.Event
 
-data class Account(val id: AccountId, val balance: Int = 0, val status: se.sbab.eventsourcing.domain.AccountStatus = se.sbab.eventsourcing.domain.AccountStatus.ACTIVE) :
-    DomainState {
+data class Account(
+    val id: AccountId,
+    val balance: Int = 0,
+    val status: AccountStatus = AccountStatus.ACTIVE
+) : DomainState {
     constructor(event: AccountOpenedEvent) : this(
         id = event.accountId,
     )
@@ -18,7 +21,7 @@ data class Account(val id: AccountId, val balance: Int = 0, val status: se.sbab.
 
     private fun on(event: MoneyDepositedEvent) = copy(balance = balance + event.amount)
 
-    private fun onAccountClosedEvent() = copy(status = se.sbab.eventsourcing.domain.AccountStatus.CLOSED)
+    private fun onAccountClosedEvent() = copy(status = AccountStatus.CLOSED)
 
     override fun onEvent(event: Event): DomainState =
         when (event) {
