@@ -216,6 +216,15 @@ fun depositMoneyToAccount(
 }
 ```
 
+```kotlin
+data class DepositMoneyRequest(
+  @field:Min(value = 1, message = "Amount to deposit must be greater than zero")
+  @Schema(description = "Amount to deposit", example = "100", required = true) val amount: Int
+) {
+  fun toCommand(accountId: AccountId) = DepositMoneyCommand(accountId, amount)
+}
+```
+
 ### Optimistic concurrency
 
 Event-sourced systems commonly use optimistic concurrency per aggregate.
