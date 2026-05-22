@@ -13,12 +13,12 @@ spring:
       schema:
         registry:
           url: http://localhost:8081
-      auto.register.schemas: true
+      auto.register.schemas: false
       specific.avro.reader: true
       value:
         subject:
           name:
-            strategy: io.confluent.kafka.serializers.subject.TopicRecordNameStrategy
+            strategy: se.sbab.kafka.serializers.subject.AccountEventsRecordNameStrategy
   cloud:
     function:
       definition: accountQueryEventStream
