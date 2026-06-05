@@ -26,6 +26,7 @@ This repository also contains a small set of demo services that show how to stru
 ## Table of contents
 
 - [What this library provides](#what-this-library-provides)
+- [Getting started](#getting-started)
 - [Event Sourcing fundamentals](#event-sourcing-fundamentals)
   - [Key concepts](#key-concepts)
   - [Commands, events, and aggregates](#commands-events-and-aggregates)
@@ -64,6 +65,34 @@ Compared to implementing event sourcing from scratch, this library aims to reduc
 - **Schema evolution support** through Avro + Schema Registry and automatic upcasting when event schemas change.
 - **An opinionated, production-oriented baseline** (database schema, retries, Spring integration) that still allows you to
   plug in custom behavior where needed.
+
+---
+
+## Getting started
+
+The fastest way to get started is to build the project from the root and then run the
+[`account-command-service`](account-command-service/src/main/kotlin/se/sbab/es/demo/app/one/AccountCommandServiceApplication.kt)
+with the `mock` profile. This profile uses an in-memory Schema Registry and disables event publishing to Kafka.
+
+On startup, the application banner will display links to the Swagger UI and the H2 console, including login details:
+
+```
+ ...
+ Powered by Spring Boot :: 4.0.6
+
+ Service: account-command-service
+ Profile: mock
+ Port:    8080
+
+ Swagger UI: http://localhost:8080/account-command-service/swagger-ui.html
+ H2 Console: http://localhost:8080/account-command-service/h2-console
+   * JDBC URL: jdbc:h2:mem:es;DB_CLOSE_ON_EXIT=FALSE
+   * Username: sa
+   * Password: password
+ ...
+```
+
+From the Swagger UI you can create new bank accounts, deposit and withdraw money, and view stored events as JSON.
 
 ---
 
@@ -242,7 +271,7 @@ This keeps the aggregate consistent without global locks.
 ### Schema evolution and upcasting
 
 All events used by this library should be encoded as **Avro** and registered in **Schema Registry** using the
-`TopicRecordNameStrategy` and compatability mode `BACKWARD_TRANSITIVE`. The topic must match the value in the
+`TopicRecordNameStrategy` and compatibility mode `BACKWARD_TRANSITIVE`. The topic must match the value in the
 `events-payload-topic` property. For example:
 
 ![Schema Registry](doc/schema-registry.png "Schema Registry")
@@ -306,9 +335,11 @@ If events written to the central Oracle database should be published to Kafka, u
 
 This library is based on Spring, and it will autoconfigure itself when included. To use it:
 
-- Import the spring-boot-eventy-store module as a Maven dependency
-- Create one or more domain state classes that implement the `DomainState` interface
-- Include `eventsourcing-changelog.yaml` in your Liquibase changelog (or create the objects manually in the database):
+- Import the [`spring-boot-event-store`](spring-boot-event-store) module as a Maven dependency
+- Create one or more domain state classes that implement the
+  [`DomainState`](spring-boot-event-store/src/main/kotlin/se/sbab/eventsourcing/DomainState.kt) interface
+- Include the [`eventsourcing-changelog.yaml`](spring-boot-event-store/src/main/resources/se/sbab/eventsourcing/db/liquibase/eventsourcing-changelog.yaml)
+  in your Liquibase changelog (or create the objects manually in the database):
 
 ```yaml
 databaseChangeLog:
@@ -415,16 +446,73 @@ This may reduce performance for some queries that filter by `AGGREGATE_ID`.
 
 ## Demo application modules
 
-The `spring-boot-event-store` module is the usable library artifact in this multi-module project.
+The [`spring-boot-event-store`](spring-boot-event-store) module is the usable library artifact in this multi-module
+project. Add it as a Maven dependency to your own Spring Boot service to start using the framework:
+
+```xml
+<dependency>
+    <groupId>se.sbab.tnt</groupId>
+    <artifactId>spring-boot-event-store</artifactId>
+    <version>1.0-SNAPSHOT</version>
+</dependency>
+```
+
+The library autoconfigures itself on startup. See the [Configuration](#configuration) section for the required setup
+steps.
+
 The other modules are libraries/services that demonstrate how to structure and run a complete example of an
-event-driven architecture.
+event-driven architecture with CQRS (Command Query Responsibility Segregation).
 
 ---
 
-## BFF (eventual consistency gateway)
+### Command service
 
-The `account-bff` service demonstrates how the `revision` header can be used to manage eventual consistency between the
-write side (`account-command-service`) and the read side (`account-query-service`).
+The [`account-command-service`](account-command-service) service is the core Event Sourcing service responsible for
+executing commands that are stored as events in the event store. It exposes a REST interface for submitting commands
+(open account, deposit money, withdraw money) and uses an in-memory H2 database to persist the resulting events as blobs.
+
+It can also publish events to Kafka, which are then consumed by other modules.
+
+### Query service
+
+The [`account-query-service`](account-query-service) service reads Kafka events from a topic and builds a read model by
+projecting them into a relational database. It exposes the read model via a GraphQL API, allowing clients to query
+the balance of individual accounts by ID or browse all accounts with pagination.
+
+Each incoming Kafka event is deserialized (using Avro and Schema Registry) and dispatched via Spring's
+`ApplicationEventPublisher`.
+
+The service also tracks the latest processed revision per aggregate and exposes a REST endpoint that returns `200 OK`
+when the read model has caught up to a given revision, or `204 No Content` if it has not yet.
+This endpoint is used by the [`account-bff`](account-bff) to implement the eventual consistency polling mechanism.
+
+### Event stream processing service
+
+The [`account-event-stream-processor`](account-event-stream-processor) service is built on Kafka Streams
+(via Spring Cloud Stream) that acts as an intermediary between the event source topic and downstream consumers.
+
+It consumes Avro-encoded events from the `account-events` topic, processes them through a Kafka Streams pipeline, and
+republishes them — making it a natural place to implement cross-cutting concerns such as:
+* Routing — forwarding only certain event types to specific downstream topics.
+* Field masking — stripping or obfuscating sensitive fields (e.g. personal data) before events reach consumers that
+  don't require them.
+* Schema re-mapping — transforming events into different shapes for different consumers.
+
+To avoid re-registering all event schemas under a new subject for the output topic, the module includes a custom
+[`AccountEventsRecordNameStrategy`](account-event-stream-processor/src/main/kotlin/se/sbab/kafka/serializers/subject/AccountEventsRecordNameStrategy.kt)
+that overrides `TopicRecordNameStrategy` and always resolves subjects against the `account-events` topic — regardless
+of the actual output topic name.
+
+This means the same schemas registered for the source topic are reused on serialization, keeping Schema Registry
+tidy and avoiding duplicate subject registrations.
+
+This service is optional — the [`account-query-service`](account-query-service) can read directly from the
+[`account-command-service`](account-command-service) topic if no stream processing is needed.
+
+### BFF (eventual consistency gateway)
+
+The [`account-bff`](account-bff) service demonstrates how the `revision` header can be used to manage eventual
+consistency between the write side (`account-command-service`) and the read side (`account-query-service`).
 
 When you deposit money into an account, the request is routed to the write side.
 The `account-bff` translates the `revision` response header into a `poll-url` header.

@@ -17,7 +17,7 @@
 package se.sbab.eventsourcing
 
 /**
- * Each root state classes of the domain should implement this interface in order to handle the state transitions
+ * Each root state class of the domain should implement this interface in order to handle the state transitions
  * caused by each event.
  */
 interface DomainState {
