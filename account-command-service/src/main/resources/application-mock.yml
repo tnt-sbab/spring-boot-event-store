@@ -1,0 +1,9 @@
+spring:
+  main:
+    banner-mode: console
+  kafka:
+    properties:
+      schema:
+        registry:
+          url: mock://localhost:8081
+publish-events: false
