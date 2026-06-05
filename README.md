@@ -36,7 +36,10 @@ This repository also contains a small set of demo services that show how to stru
 - [Spring integration](#spring-integration)
 - [Configuration](#configuration)
 - [Demo application modules](#demo-application-modules)
-- [BFF (eventual consistency gateway)](#bff-eventual-consistency-gateway)
+  - [Command service](#command-service)
+  - [Query service](#query-service)
+  - [Event stream processing service](#event-stream-processing-service)
+  - [BFF (eventual consistency gateway)](#bff-eventual-consistency-gateway)
 - [Local Kafka](#local-kafka)
 - [View events on Kafka using Kafbat UI](#view-events-on-kafka-using-kafbat-ui)
 
