@@ -6,7 +6,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>4.0.6</version>
+        <version>4.1.0</version>
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
 
@@ -18,7 +18,7 @@
         <java.version>21</java.version>
         <oracle-database.version>21.21.0.0</oracle-database.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <kotlin.version>2.2.21</kotlin.version>
+        <kotlin.version>2.3.21</kotlin.version>
         <maven.deploy.skip>true</maven.deploy.skip>
     </properties>
 
@@ -79,7 +79,7 @@
         <dependency>
             <groupId>io.confluent</groupId>
             <artifactId>kafka-avro-serializer</artifactId>
-            <version>8.2.1</version>
+            <version>8.3.0</version>
             <exclusions>
                 <exclusion>
                     <groupId>io.swagger.core.v3</groupId>

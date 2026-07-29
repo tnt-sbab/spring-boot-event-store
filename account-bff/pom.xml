@@ -5,7 +5,7 @@
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>4.0.6</version>
+		<version>4.1.0</version>
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>se.sbab.es.demo.bff</groupId>
@@ -15,8 +15,8 @@
 	<description>Demo BFF for account</description>
 	<properties>
 		<java.version>21</java.version>
-		<kotlin.version>2.2.21</kotlin.version>
-		<spring-cloud.version>2025.1.1</spring-cloud.version>
+		<kotlin.version>2.3.21</kotlin.version>
+		<spring-cloud.version>2025.1.2</spring-cloud.version>
 		<maven.deploy.skip>true</maven.deploy.skip>
 	</properties>
 	<dependencyManagement>
@@ -83,7 +83,7 @@
 			<groupId>org.wiremock.integrations</groupId>
 			<artifactId>wiremock-spring-boot</artifactId>
 			<scope>test</scope>
-            <version>4.2.1</version>
+            <version>4.2.2</version>
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
