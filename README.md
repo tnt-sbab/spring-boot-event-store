@@ -81,7 +81,7 @@ On startup, the application banner will display links to the Swagger UI and the 
 
 ```
  ...
- Powered by Spring Boot :: 4.0.6
+ Powered by Spring Boot :: 4.1.1
 
  Service: account-command-service
  Profile: mock
