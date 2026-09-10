@@ -29,6 +29,6 @@ fun Event.toJson(): String {
         val encoder = EncoderFactory.get().jsonEncoder(schema, outputStream)
         writer.write(this, encoder)
         encoder.flush()
-        return outputStream.toString(se.sbab.eventsourcing.UTF8_CHARSET)
+        return outputStream.toString(UTF8_CHARSET)
     }
 }
