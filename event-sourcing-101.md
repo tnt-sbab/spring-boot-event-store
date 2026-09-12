@@ -12,18 +12,18 @@ The target audience is developers who want the benefits of Event Sourcing withou
 
 In practice, that means:
 
-- you write normal Spring Boot Kotlin/Java code
-- events are Avro records (`SpecificRecord`)
-- aggregates implement one small interface (`DomainState`)
-- command flow is explicit (`CommandService.apply` / `applyList`)
+- You write normal Spring Boot Kotlin/Java code
+- Events are Avro records (`SpecificRecord`)
+- Aggregates implement one small interface (`DomainState`)
+- Command flow is explicit (`CommandService.apply` / `applyList`)
 
 And the framework handles:
 
-- event persistence and state replay
-- optimistic concurrency retry on revision conflicts
-- event publication after persistence
-- read-time schema evolution support (upcasting)
-- consistent response headers (`aggregate-id`, `revision`) in servlet apps
+- Event persistence and state replay
+- Optimistic concurrency retry on revision conflicts
+- Event publication after persistence
+- Read-time schema evolution support (upcasting)
+- Consistent response headers (`aggregate-id`, `revision`) in servlet apps
 
 ---
 
@@ -49,10 +49,10 @@ Current state is reconstructed by replaying events in order.
 
 This gives you:
 
-- complete history
-- deterministic replay
-- easier debugging of "what happened"
-- rebuildable read models
+- Complete history
+- Deterministic replay
+- Easier debugging of "what happened"
+- Rebuildable read models
 
 ---
 
@@ -123,9 +123,9 @@ data class Account(val balance: Int = 0) : DomainState {
 
 What matters:
 
-- state is immutable (`copy(...)`)
-- replay is deterministic (same stream => same state)
-- first event initializes aggregate (`constructor(event: AccountOpenedEvent)`)
+- State is immutable (`copy(...)`)
+- Replay is deterministic (same stream => same state)
+- First event initializes aggregate (`constructor(event: AccountOpenedEvent)`)
 
 ---
 
@@ -195,9 +195,9 @@ The event store enforces uniqueness on `(aggregate_id, revision)`.
 
 If two writers race for the same next revision:
 
-- one write succeeds
-- one write fails with data integrity violation
-- framework retries automatically by reloading current state
+- One write succeeds
+- One write fails with data integrity violation
+- Framework retries automatically by reloading current state
 
 This behavior is implemented in `CommandServiceImpl.retryOnDataIntegrityViolationException`.
 
@@ -226,14 +226,14 @@ Because events are Avro records, schema evolution is explicit.
 
 Recommended setup:
 
-- subject naming strategy: `TopicRecordNameStrategy`
-- compatibility mode: `BACKWARD_TRANSITIVE`
+- Subject naming strategy: `TopicRecordNameStrategy`
+- Compatibility mode: `BACKWARD_TRANSITIVE`
 
 When configured correctly:
 
-- incompatible schema changes are blocked at registration
-- old stored events remain readable by newer code
-- framework deserialization/upcasting keeps application code focused on latest event model
+- Incompatible schema changes are blocked at registration
+- Old stored events remain readable by newer code
+- Framework deserialization/upcasting keeps application code focused on latest event model
 
 Schema Registry config example:
 
@@ -277,9 +277,9 @@ which returns a JSON list with event name, timestamp, revision, and payload.
 
 This is enough to answer common questions like:
 
-- what happened to this aggregate?
-- in which order did events occur?
-- which revision introduced the current state?
+- What happened to this aggregate?
+- In which order did events occur?
+- Which revision introduced the current state?
 
 ---
 
@@ -307,11 +307,11 @@ Basic scenario:
 
 ## Common mistakes to avoid
 
-- validating business invariants inside replay methods (`onEvent`) instead of command handlers
-- mutating/deleting historical events instead of appending compensating events
-- treating projection/read models as source of truth
-- evolving Avro schemas without strict compatibility discipline
-- overusing Event Sourcing for simple CRUD domains
+- Validating business invariants inside replay methods (`onEvent`) instead of command handlers
+- Mutating/deleting historical events instead of appending compensating events
+- Treating projection/read models as source of truth
+- Evolving Avro schemas without strict compatibility discipline
+- Overusing Event Sourcing for simple CRUD domains
 
 ---
 
@@ -319,9 +319,9 @@ Basic scenario:
 
 Use it when you want Event Sourcing benefits with a lightweight development model:
 
-- explicit history and auditability
-- robust schema evolution over time
-- replayable state and rebuildable projections
-- clean eventual consistency contracts with revisions
+- Explicit history and auditability
+- Robust schema evolution over time
+- Replayable state and rebuildable projections
+- Clean eventual consistency contracts with revisions
 
 In short: the framework should stay mostly invisible, while your domain model stays explicit and easy to reason about.
