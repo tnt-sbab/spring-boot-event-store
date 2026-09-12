@@ -156,6 +156,13 @@ If bad data was historically persisted, fix forward with compensating events rat
 
 Application service code stays small:
 
+This is where your plain domain classes are plugged into the Spring and persistence infrastructure provided by the
+library. `CommandService.apply` and `applyList` take an `aggregateId`, use it to read and replay the current aggregate
+state, and then execute your command logic against that state to produce one or more events.
+
+If the command handler fails its preconditions — for example through `checkNotNull(...)` or `require(...)` as in the
+example above — no events are produced and nothing is persisted.
+
 ```kotlin
 @Service
 class AccountCommandService(private val commandService: CommandService<Account>) {
@@ -164,11 +171,11 @@ class AccountCommandService(private val commandService: CommandService<Account>)
 }
 ```
 
-At runtime, `apply` does this:
+At runtime, `apply` and `applyList` does this:
 
-1. read current stream and reconstruct state
-2. run your update function/handler
-3. append emitted event(s) with next revision(s)
+1. read current event stream and reconstruct state
+2. run your command logic against that state
+3. append emitted event(s) with next revision(s) and persist them to the database
 4. publish events transactionally to Spring listeners
 5. set response headers `aggregate-id` and `revision` (servlet apps)
 
