@@ -17,19 +17,38 @@ Many teams like Event Sourcing in theory, but avoid it because of framework comp
 
 `spring-boot-event-store` is designed to remove that barrier by handling difficult parts out of the box:
 
-- event versioning
-- automatic upcasting
-- projections and projection rebuilding
-- eventual consistency support via `revision`
-- idempotency and optimistic concurrency behavior
-- schema evolution with Avro + Schema Registry
-- operational visibility through event history APIs and JSON event reads
+- Event versioning
+- Automatic upcasting
+- Projections and projection rebuilding
+- Eventual consistency support via `revision`
+- Idempotency and optimistic concurrency behavior
+- Schema evolution with Avro + Schema Registry
+- Operational visibility through event history APIs and JSON event reads
 
 ## The core promise
 
 **Event Sourcing without a framework tax.**
 
 You keep your normal Spring Boot and domain programming model. The framework handles event-store mechanics, replay/projection flow, concurrency retries, and event publication.
+
+**Design principle: the framework stays in the background while your domain model stays front and center.**
+
+## Framework-neutral domain model (POJO first)
+
+This framework is fully POJO based.
+
+- Your domain classes do not need to extend framework base classes
+- Your domain classes do not need framework annotations to work
+- Your domain model can run and be tested without runtime coupling to framework internals
+
+Think of it as the same shift many teams made from older container-heavy models (for example classic JEE entity bean
+style) to lighter models where your own classes stay in control.
+
+This design keeps the learning curve lower, reduces framework lock-in risk, and makes migration/refactoring easier over
+time.
+
+If you are coming from heavier Event Sourcing stacks, the goal here is intentionally different: keep your domain model
+plain, and let the framework stay mostly invisible.
 
 ## Why developers adopt this quickly
 
@@ -60,8 +79,8 @@ java -jar account-command-service/target/account-command-service-1.0-SNAPSHOT.ja
 
 The `mock` profile uses:
 
-- in-memory H2 database
-- mock Schema Registry (`mock://localhost:8081`)
+- In-memory H2 database
+- Mock Schema Registry (`mock://localhost:8081`)
 - `publish-events: false`
 
 No local Kafka or Schema Registry setup is required for this path.
@@ -80,8 +99,8 @@ Try this flow:
 Optional H2 console:
 
 - `http://localhost:8080/account-command-service/h2-console`
-- username: `sa`
-- password: `password`
+- Username: `sa`
+- Password: `password`
 
 ## What it looks like in code
 
@@ -125,9 +144,9 @@ As event schemas evolve, old events remain usable.
 
 With Avro + Schema Registry and `BACKWARD_TRANSITIVE` compatibility:
 
-- incompatible schema changes are rejected at registration time
-- old events can still be deserialized by newer services
-- the application works with the latest event schema without hand-written migration code for every change
+- Incompatible schema changes are rejected at registration time
+- Old events can still be deserialized by newer services
+- The application works with the latest event schema without hand-written migration code for every change
 
 This is central to long-term maintainability in event-sourced systems.
 
@@ -166,8 +185,8 @@ events-payload-topic: account-events
 
 Recommended for domain events:
 
-- subject naming strategy: `TopicRecordNameStrategy`
-- compatibility mode: `BACKWARD_TRANSITIVE`
+- Subject naming strategy: `TopicRecordNameStrategy`
+- Compatibility mode: `BACKWARD_TRANSITIVE`
 
 ## Where BPMN fits
 
@@ -194,10 +213,10 @@ This separation keeps each concern clear while still enabling end-to-end process
 
 Great fit when you need:
 
-- strong audit/history requirements
-- evolving integration contracts over time
-- explicit handling of eventual consistency
-- the ability to rebuild read models safely
+- Strong audit/history requirements
+- Evolving integration contracts over time
+- Explicit handling of eventual consistency
+- The ability to rebuild read models safely
 
 Less compelling when your use case is simple CRUD with limited domain behavior.
 
@@ -205,7 +224,7 @@ Less compelling when your use case is simple CRUD with limited domain behavior.
 
 For local Kafka clusters, use Confluent `cp-all-in-one`:
 
-- <https://github.com/confluentinc/cp-all-in-one/blob/v7.7.1/cp-all-in-one/docker-compose.yml>
+- <https://github.com/confluentinc/cp-all-in-one/blob/v8.3.1/cp-all-in-one/docker-compose.yml>
 
 To inspect topics visually, you can use Kafbat UI:
 
@@ -213,7 +232,7 @@ To inspect topics visually, you can use Kafbat UI:
 
 ## Learn more
 
-- Event sourcing fundamentals: [`event-sourcing-101.md`](event-sourcing-101.md)
+- Event Sourcing fundamentals: [`event-sourcing-101.md`](event-sourcing-101.md)
 - Oracle Kafka Connect example: [`account-events-oracle-connector.json`](account-command-service/account-events-oracle-connector.json)
 - License: [Apache 2.0](LICENSE.txt)
 
