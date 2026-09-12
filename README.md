@@ -29,7 +29,8 @@ Many teams like Event Sourcing in theory, but avoid it because of framework comp
 
 **Event Sourcing without a framework tax.**
 
-You keep your normal Spring Boot and domain programming model. The framework handles event-store mechanics, replay/projection flow, concurrency retries, and event publication.
+You keep your normal Spring Boot and domain programming model. The framework handles event-store mechanics,
+replay/projection flow, concurrency retries, and event publication.
 
 **Design principle: the framework stays in the background while your domain model stays front and center.**
 
@@ -49,6 +50,23 @@ time.
 
 If you are coming from heavier Event Sourcing stacks, the goal here is intentionally different: keep your domain model
 plain, and let the framework stay mostly invisible.
+
+## Why this is simpler
+
+Many event-sourcing frameworks ask you to learn a lot of framework-specific concepts before you can write a single
+domain rule.
+
+This project takes a lighter approach:
+
+- Your domain model stays plain, testable, and easy to understand
+- You work with a small set of interfaces instead of a large framework vocabulary
+- Built-in event versioning and automatic upcasting reduce the need for custom migration code
+- The learning curve stays lower because the framework supports your model instead of reshaping it
+
+It also feels like a natural part of Spring Boot: you add a few well-defined pieces, and the framework stays in the
+background instead of becoming a new application model you must learn from scratch.
+
+That makes it easier to get started, easier to test, and easier to keep the domain code focused on business behavior.
 
 ## Why developers adopt this quickly
 
@@ -150,6 +168,19 @@ With Avro + Schema Registry and `BACKWARD_TRANSITIVE` compatibility:
 
 This is central to long-term maintainability in event-sourced systems.
 
+## Avro events feel like normal generated domain records
+
+Another practical benefit is that the Avro-based domain events can be reused across services with no extra code.
+
+They also support:
+
+- Custom logical types for value objects such as IDs and other domain-specific types
+- Kotlin null safety through Avro's `createNullSafeAnnotations`
+  [configuration](https://issues.apache.org/jira/browse/AVRO-3641) support
+
+That means the generated events can feel like a natural equivalent of Java records or Kotlin data classes, while still
+having the extra capabilities needed for serialization, deserialization, and on-the-fly upcasting.
+
 ## Minimal integration in your own service
 
 ### 1) Add dependency
@@ -190,7 +221,8 @@ Recommended for domain events:
 
 ## Where BPMN fits
 
-This framework pairs well with BPMN orchestration engines (for example CIB seven or Camunda-based setups) when your domain includes long-running workflows.
+This framework pairs well with BPMN orchestration engines (for example CIB seven or Camunda-based setups) when your
+domain includes long-running workflows.
 
 A common split is:
 
