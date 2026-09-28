@@ -145,6 +145,25 @@ commandService.apply(command.accountId) { account ->
 }
 ```
 
+## Your POJO logic, the framework's magic: `CommandService` connects them
+
+The `CommandService` is where your plain POJO domain logic meets the framework's event sourcing machinery.
+
+Your command handlers contain only pure business logic—no framework dependencies, no database calls, no event handling
+plumbing. Write them like you would write any other business logic: take the current state, apply rules, emit events.
+
+When you call `commandService.apply(aggregateId) { account -> ... }`, the framework orchestrates everything behind the
+scenes:
+
+- **State reconstruction**: The framework replays all events from the event store to hydrate the current aggregate state
+- **Command execution**: Your handler runs against that state in a clean, testable way
+- **Event persistence**: Emitted events are saved atomically with automatic versioning and schema compatibility
+- **Optimistic concurrency**: If another thread modifies the same aggregate concurrently, the framework retries automatically
+- **Event publication**: Persisted events are immediately published through Spring events for projection updates and downstream systems
+- **Metrics**: All of this is instrumented for observability
+
+The result: your business logic stays ignorant of all this complexity, while still getting industrial-strength event sourcing for free.
+
 ## What the framework handles for you
 
 For each command:
