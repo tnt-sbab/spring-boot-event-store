@@ -53,15 +53,14 @@ class ReflectiveRootStateProjector(
             val eventConstructor: (Event) -> DomainState = { event: Event ->
                 constructor.newInstance(event) as DomainState
             }
+            @Suppress("UNCHECKED_CAST")
             constructor.parameterTypes[0] as Class<Event> to eventConstructor
         }
 
     private fun isRootStateConstructor(constructor: Constructor<*>): Boolean =
         constructor.parameters.size == 1 && Event::class.java.isAssignableFrom(constructor.parameters[0].type)
 
-    override fun onEvent(event: Event): DomainState {
-        constructors[event::class.java]?.let { constructor ->
-            return constructor(event)
-        } ?: throw IllegalArgumentException("No constructor event found for account")
-    }
+    override fun onEvent(event: Event): DomainState =
+        constructors[event::class.java]?.invoke(event)
+            ?: throw IllegalArgumentException("No constructor found for event type ${event::class.java}")
 }
