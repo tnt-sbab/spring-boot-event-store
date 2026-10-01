@@ -74,21 +74,16 @@ class EventStoreServiceImpl(
 
     private fun getRevision(events: List<EventEntity>) = events.last().revision
 
-    private fun convert(aggregateId: UUID, updatedFrom: Revision, event: Event): EventEntity {
-        return EventEntity(
-            aggregateId = aggregateId,
-            revision = updatedFrom.next(),
-            payload = serDeService.serialize(event),
-        )
-    }
+    private fun convert(aggregateId: UUID, updatedFrom: Revision, event: Event) = EventEntity(
+        aggregateId = aggregateId,
+        revision = updatedFrom.next(),
+        payload = serDeService.serialize(event),
+    )
 
     private fun addResponseHeaders(aggregateId: UUID, revision: Revision) {
-        val requestAttributes = RequestContextHolder.getRequestAttributes()
-        if (requestAttributes is ServletRequestAttributes) {
-            requestAttributes.response?.let { response ->
-                response.setHeader(AGGREGATE_ID_HEADER_NAME, aggregateId.toString())
-                response.setIntHeader(REVISION_HEADER_NAME, revision.value)
-            }
+        (RequestContextHolder.getRequestAttributes() as? ServletRequestAttributes)?.response?.let { response ->
+            response.setHeader(AGGREGATE_ID_HEADER_NAME, aggregateId.toString())
+            response.setIntHeader(REVISION_HEADER_NAME, revision.value)
         }
     }
 }
