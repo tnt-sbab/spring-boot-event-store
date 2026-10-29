@@ -7,6 +7,8 @@ import tools.jackson.module.kotlin.jacksonObjectMapper
 import java.util.UUID
 
 internal class AccountIdTest {
+    private val jsonMapper = jacksonObjectMapper()
+
     @Test
     fun `a valid uuid string should construct a valid AccountId object`() {
         val uuid = UUID.randomUUID()
@@ -47,16 +49,16 @@ internal class AccountIdTest {
     fun `AccountId can be serialized identical to raw string without wrapper class`() {
         val uuid = UUID.randomUUID()
         val accountId = AccountId(uuid)
-        val result = jacksonObjectMapper().writeValueAsString(accountId)
-        val expected = jacksonObjectMapper().writeValueAsString(uuid.toString())
+        val result = jsonMapper.writeValueAsString(accountId)
+        val expected = jsonMapper.writeValueAsString(uuid.toString())
         assertEquals(expected, result)
     }
 
     @Test
     fun `AccountId can be serialized and deserialized to identical objects`() {
         val accountId = AccountId()
-        val serialized = jacksonObjectMapper().writeValueAsString(accountId)
-        val deserialized = jacksonObjectMapper().readValue(serialized, AccountId::class.java)
+        val serialized = jsonMapper.writeValueAsString(accountId)
+        val deserialized = jsonMapper.readValue(serialized, AccountId::class.java)
         assertEquals(accountId, deserialized)
     }
 }

@@ -1,0 +1,7 @@
+{
+  "namespace": "se.sbab.eventsourcing.test.avro",
+  "name": "Token",
+  "type": "fixed",
+  "size": 2
+}
+

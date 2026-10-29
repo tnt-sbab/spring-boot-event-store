@@ -1,0 +1,83 @@
+{
+  "namespace": "se.sbab.eventsourcing.test.avro",
+  "name": "EventUtilTestEvent",
+  "type": "record",
+  "fields": [
+    {
+      "name": "amount",
+      "type": [
+        "null",
+        {
+          "type": "bytes",
+          "logicalType": "decimal",
+          "precision": 17,
+          "scale": 2
+        }
+      ],
+      "default": null
+    },
+    {
+      "name": "nestedRecord",
+      "type": "NestedRecord"
+    },
+    {
+      "name": "nestedRecords",
+      "type": {
+        "type": "array",
+        "items": "NestedRecord"
+      }
+    },
+    {
+      "name": "attributes",
+      "type": {
+        "type": "map",
+        "values": "string"
+      }
+    },
+    {
+      "name": "binaryValue",
+      "type": "bytes"
+    },
+    {
+      "name": "fixedValue",
+      "type": "Token"
+    },
+    {
+      "name": "text",
+      "type": "string"
+    },
+    {
+      "name": "status",
+      "type": "Status"
+    },
+    {
+      "name": "active",
+      "type": "boolean"
+    },
+    {
+      "name": "count",
+      "type": "int"
+    },
+    {
+      "name": "total",
+      "type": "long"
+    },
+    {
+      "name": "ratio",
+      "type": "float"
+    },
+    {
+      "name": "precise",
+      "type": "double"
+    },
+    {
+      "name": "optionalText",
+      "type": [
+        "null",
+        "string"
+      ],
+      "default": null
+    }
+  ]
+}
+

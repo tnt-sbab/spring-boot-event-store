@@ -1,0 +1,16 @@
+{
+  "namespace": "se.sbab.eventsourcing.test.avro",
+  "name": "NestedRecord",
+  "type": "record",
+  "fields": [
+    {
+      "name": "label",
+      "type": "string"
+    },
+    {
+      "name": "quantity",
+      "type": "int"
+    }
+  ]
+}
+

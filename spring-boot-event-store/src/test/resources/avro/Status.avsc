@@ -1,0 +1,7 @@
+{
+  "namespace": "se.sbab.eventsourcing.test.avro",
+  "name": "Status",
+  "type": "enum",
+  "symbols": ["NEW", "ACTIVE", "CLOSED"]
+}
+
