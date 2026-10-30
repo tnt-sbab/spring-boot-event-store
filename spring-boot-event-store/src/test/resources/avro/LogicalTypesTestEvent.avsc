@@ -1,0 +1,19 @@
+{
+  "namespace": "se.sbab.eventsourcing.test.avro",
+  "name": "LogicalTypesTestEvent",
+  "type": "record",
+  "fields": [
+    {"name": "id", "type": {"type": "string", "logicalType": "uuid"}},
+    {"name": "date", "type": {"type": "int", "logicalType": "date"}},
+    {"name": "timeMillis", "type": {"type": "int", "logicalType": "time-millis"}},
+    {"name": "timeMicros", "type": {"type": "long", "logicalType": "time-micros"}},
+    {"name": "timestampMillis", "type": {"type": "long", "logicalType": "timestamp-millis"}},
+    {"name": "timestampMicros", "type": {"type": "long", "logicalType": "timestamp-micros"}},
+    {"name": "localTimestampMillis", "type": {"type": "long", "logicalType": "local-timestamp-millis"}},
+    {"name": "localTimestampMicros", "type": {"type": "long", "logicalType": "local-timestamp-micros"}},
+    {
+      "name": "duration",
+      "type": {"type": "fixed", "name": "TestDuration", "size": 12, "logicalType": "duration"}
+    }
+  ]
+}

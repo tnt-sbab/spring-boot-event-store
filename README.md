@@ -284,6 +284,7 @@ To inspect topics visually, you can use Kafbat UI:
 ## Learn more
 
 - Event Sourcing fundamentals: [`event-sourcing-101.md`](event-sourcing-101.md)
+- JSON logical types and formatting: [`json-logical-types.md`](json-logical-types.md)
 - Oracle Kafka Connect example: [`account-events-oracle-connector.json`](account-command-service/account-events-oracle-connector.json)
 - License: [Apache 2.0](LICENSE.txt)
 
